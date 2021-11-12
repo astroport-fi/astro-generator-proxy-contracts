@@ -1,11 +1,10 @@
-# Generator proxy to ANC LP Staking Rewards
+# Generator Proxy to ANC LP Staking Rewards
 
-The generator proxy contract interacts with Anchor LP staking contract (dual rewards feature).
-Anchor LP Staking contract : https://github.com/Anchor-Protocol/anchor-token-contracts/blob/main/contracts/staking/src/contract.rs
+The generator proxy contract interacts with the Anchor LP staking contract (the Astroport dual rewards feature).
 
-[Staking via proxy](https://miro.medium.com/max/1400/0*8hn2NSnZJZTa9YGV)
+Anchor LP Staking contract implementation: https://github.com/Anchor-Protocol/anchor-token-contracts/blob/main/contracts/staking/src/contract.rs
 
-README has updated with new messages (Astroport v1 messages follow).
+The staking via proxy guide is [here](https://miro.medium.com/max/1400/0*8hn2NSnZJZTa9YGV).
 
 ---
 
