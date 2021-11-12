@@ -1,12 +1,10 @@
-# Generator proxy to PSI LP Staking Rewards
+# Generator Proxy to PSI LP Staking Rewards
 
-The generator proxy contract interacts with PSI LP staking contract (dual rewards feature).
+The generator proxy contract interacts with the PSI LP staking contract (the Astroport dual rewards feature).
 
-PSI LP Staking contract : https://github.com/Nexus-Protocol/services-contracts/tree/master/contracts/staking
+PSI LP Staking contract implementation: https://github.com/Nexus-Protocol/services-contracts/tree/master/contracts/staking
 
-[Staking via proxy](https://miro.medium.com/max/1400/0*8hn2NSnZJZTa9YGV)
-
-README has updated with new messages (Astroport v1 messages follow).
+The staking via proxy guide is [here](https://miro.medium.com/max/1400/0*8hn2NSnZJZTa9YGV).
 
 ---
 
