@@ -1,4 +1,4 @@
-# Astroport Generator proxy to MARS LP Staking Rewards
+# Generator proxy to ANC LP Staking Rewards
 
 The generator proxy contract interacts with Anchor LP staking contract (dual rewards feature).
 Anchor LP Staking contract : https://github.com/Anchor-Protocol/anchor-token-contracts/blob/main/contracts/staking/src/contract.rs
