@@ -1,0 +1,6 @@
+artifacts
+target
+/scripts/node_modules
+test
+.idea
+.gitconfig
