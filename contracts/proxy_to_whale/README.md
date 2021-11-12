@@ -1,10 +1,10 @@
-# Generator proxy to WHALE LP Staking Rewards
+# Generator Proxy to WHALE LP Staking Rewards
 
-The generator proxy contract interacts with WHALE LP staking contract (dual rewards feature). [Staking via proxy](https://miro.medium.com/max/1400/0*8hn2NSnZJZTa9YGV)
+The generator proxy contract interacts with the WHALE LP staking contract (the Astroport dual rewards feature). 
 
-WHALE LP Staking Contract : https://github.com/White-Whale-Defi-Platform/LP-Staking-Contracts
+WHALE LP staking contract implementation: https://github.com/White-Whale-Defi-Platform/LP-Staking-Contracts
 
-README has updated with new messages (Astroport v1 messages follow).
+The staking via proxy guide is [here](https://miro.medium.com/max/1400/0*8hn2NSnZJZTa9YGV).
 
 ---
 
