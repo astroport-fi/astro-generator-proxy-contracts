@@ -1,6 +1,7 @@
-# Astroport Periphery
+# Generator Proxy contracts
 
-This repo contains the contracts which facilitates ASTRO tokens airdrop, lockdrop and LP Bootstrapping via auction during the intital protocol launch.
+This repo contains the proxy contracts for 3rd party LP staking incentives.
+These are needed for allowing dual incentives on the Astro LP Tokens via the generator contract.
 
 ## Development
 
@@ -21,19 +22,6 @@ This repo contains the contracts which facilitates ASTRO tokens airdrop, lockdro
 ```sh
 rustup default stable
 rustup target add wasm32-unknown-unknown
-```
-
-3. Install Node libraries required:
-
-```bash
-cd scripts
-npm install
-```
-
-3. Deploy on testnet:
-
-```bash
-node --experimental-json-modules --loader ts-node/esm deploy_script.ts
 ```
 
 ### Compile
