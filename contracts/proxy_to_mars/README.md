@@ -1,12 +1,10 @@
 # Generator Proxy to MARS LP Staking Rewards
 
-The generator proxy contract interacts with the MARS LP staking contract (dual rewards feature).
+The generator proxy contract interacts with the MARS LP staking contract (the Astroport dual rewards feature).
 
 MARS LP Staking contract implementation: https://github.com/mars-protocol/mars-periphery/tree/main/contracts/lp_staking
 
-[Staking via proxy](https://miro.medium.com/max/1400/0*8hn2NSnZJZTa9YGV)
-
-README has updated with new messages (Astroport v1 messages follow).
+The staking via proxy guide is [here](https://miro.medium.com/max/1400/0*8hn2NSnZJZTa9YGV).
 
 ---
 
