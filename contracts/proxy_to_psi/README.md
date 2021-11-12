@@ -1,8 +1,10 @@
-# Generator proxy to WHALE LP Staking Rewards
+# Generator proxy to PSI LP Staking Rewards
 
-The generator proxy contract interacts with WHALE LP staking contract (dual rewards feature). [Staking via proxy](https://miro.medium.com/max/1400/0*8hn2NSnZJZTa9YGV)
+The generator proxy contract interacts with PSI LP staking contract (dual rewards feature).
 
-WHALE LP Staking Contract : https://github.com/White-Whale-Defi-Platform/LP-Staking-Contracts
+PSI LP Staking contract : https://github.com/Nexus-Protocol/services-contracts/tree/master/contracts/staking
+
+[Staking via proxy](https://miro.medium.com/max/1400/0*8hn2NSnZJZTa9YGV)
 
 README has updated with new messages (Astroport v1 messages follow).
 

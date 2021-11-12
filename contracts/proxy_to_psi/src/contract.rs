@@ -6,17 +6,17 @@ use cw20::{BalanceResponse, Cw20ExecuteMsg, Cw20QueryMsg, Cw20ReceiveMsg};
 
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
-use astroport_generator_proxy::anc_staking::{
-    Cw20HookMsg as AncCw20HookMsg, ExecuteMsg as AncExecuteMsg, QueryMsg as AncQueryMsg,
-    StakerInfoResponse,
-};
 use astroport_generator_proxy::generator_proxy::{
     Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
+};
+use astroport_generator_proxy::psi_staking::{
+    Cw20HookMsg as PsiCw20HookMsg, ExecuteMsg as PsiExecuteMsg, QueryMsg as PsiQueryMsg,
+    StakerInfoResponse,
 };
 use cw2::set_contract_version;
 
 // version info for migration info
-const CONTRACT_NAME: &str = "astroport-generator-proxy-to-anchor";
+const CONTRACT_NAME: &str = "astroport-generator-proxy-to-psi";
 const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[cfg_attr(not(feature = "library"), entry_point)]
@@ -57,7 +57,7 @@ pub fn execute(
 }
 
 /// @dev Receives LP tokens sent by Generator contract.
-/// Stakes them with the Anchor LP Staking contract
+/// Stakes them with the PSI LP Staking contract
 fn receive_cw20(
     deps: DepsMut,
     _env: Env,
@@ -79,7 +79,7 @@ fn receive_cw20(
                 msg: to_binary(&Cw20ExecuteMsg::Send {
                     contract: cfg.reward_contract_addr.to_string(),
                     amount: cw20_msg.amount,
-                    msg: to_binary(&AncCw20HookMsg::Bond {})?,
+                    msg: to_binary(&PsiCw20HookMsg::Bond {})?,
                 })?,
             })));
     } else {
@@ -88,7 +88,7 @@ fn receive_cw20(
     Ok(response)
 }
 
-/// @dev Claims pending rewards from the ANC LP staking contract
+/// @dev Claims pending rewards from the PSI LP staking contract
 fn update_rewards(deps: DepsMut) -> Result<Response, ContractError> {
     let mut response = Response::new();
     let cfg = CONFIG.load(deps.storage)?;
@@ -98,15 +98,15 @@ fn update_rewards(deps: DepsMut) -> Result<Response, ContractError> {
         .push(SubMsg::new(CosmosMsg::Wasm(WasmMsg::Execute {
             contract_addr: cfg.reward_contract_addr.to_string(),
             funds: vec![],
-            msg: to_binary(&AncExecuteMsg::Withdraw {})?,
+            msg: to_binary(&PsiExecuteMsg::Withdraw {})?,
         })));
 
     Ok(response)
 }
 
-/// @dev Transfers ANC rewards
-/// @param account : User to which ANC tokens are to be transferred
-/// @param amount : Number of ANC to be transferred
+/// @dev Transfers PSI rewards
+/// @param account : User to which PSI tokens are to be transferred
+/// @param amount : Number of PSI  to be transferred
 fn send_rewards(
     deps: DepsMut,
     info: MessageInfo,
@@ -151,7 +151,7 @@ fn withdraw(
     response.messages.push(SubMsg::new(WasmMsg::Execute {
         contract_addr: cfg.reward_contract_addr.to_string(),
         funds: vec![],
-        msg: to_binary(&AncExecuteMsg::Unbond {
+        msg: to_binary(&PsiExecuteMsg::Unbond {
             amount: amount.into(),
         })?,
     }));
@@ -175,9 +175,9 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
         QueryMsg::Deposit {} => {
             let res: StakerInfoResponse = deps.querier.query_wasm_smart(
                 cfg.reward_contract_addr,
-                &AncQueryMsg::StakerInfo {
+                &PsiQueryMsg::StakerInfo {
                     staker: env.contract.address.to_string(),
-                    block_height: None,
+                    time_seconds: None,
                 },
             )?;
             let deposit_amount = res.bond_amount;
@@ -197,9 +197,9 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
         QueryMsg::PendingToken {} => {
             let res: StakerInfoResponse = deps.querier.query_wasm_smart(
                 cfg.reward_contract_addr,
-                &AncQueryMsg::StakerInfo {
+                &PsiQueryMsg::StakerInfo {
                     staker: env.contract.address.to_string(),
-                    block_height: None,
+                    time_seconds: None,
                 },
             )?;
             let pending_reward = res.pending_reward;

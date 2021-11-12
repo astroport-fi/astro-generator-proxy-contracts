@@ -12,6 +12,7 @@ dependencies = [
  "schemars",
  "serde",
  "terra-cosmwasm",
+ "terraswap",
  "uint",
 ]
 
@@ -116,6 +117,16 @@ dependencies = [
  "serde-json-wasm",
  "thiserror",
  "uint",
+]
+
+[[package]]
+name = "cosmwasm-storage"
+version = "0.16.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2e3472d8e0e7155c5f4d89674ad47adede4b1491ad14f4141610e1522028a6a7"
+dependencies = [
+ "cosmwasm-std",
+ "serde",
 ]
 
 [[package]]
@@ -315,6 +326,22 @@ dependencies = [
 
 [[package]]
 name = "generator-proxy-to-mars"
+version = "0.0.0"
+dependencies = [
+ "astroport-generator-proxy",
+ "cosmwasm-bignumber",
+ "cosmwasm-schema",
+ "cosmwasm-std",
+ "cw-storage-plus",
+ "cw2",
+ "cw20",
+ "schemars",
+ "serde",
+ "thiserror",
+]
+
+[[package]]
+name = "generator-proxy-to-psi"
 version = "0.0.0"
 dependencies = [
  "astroport-generator-proxy",
@@ -625,6 +652,20 @@ dependencies = [
  "cosmwasm-std",
  "schemars",
  "serde",
+]
+
+[[package]]
+name = "terraswap"
+version = "2.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "96f2c2a6371e9ddf2c942368e64645cc3e8fc2855da70c8c6bed238dcdd5522f"
+dependencies = [
+ "cosmwasm-std",
+ "cosmwasm-storage",
+ "cw20",
+ "schemars",
+ "serde",
+ "terra-cosmwasm",
 ]
 
 [[package]]
