@@ -2,6 +2,7 @@ pub mod anc_staking;
 pub mod generator;
 pub mod generator_proxy;
 pub mod mars_staking;
+pub mod whale_staking;
 
 #[allow(clippy::all)]
 mod uints {

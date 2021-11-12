@@ -330,6 +330,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "generator-proxy-to-whale"
+version = "0.0.0"
+dependencies = [
+ "astroport-generator-proxy",
+ "cosmwasm-bignumber",
+ "cosmwasm-schema",
+ "cosmwasm-std",
+ "cw-storage-plus",
+ "cw2",
+ "cw20",
+ "schemars",
+ "serde",
+ "thiserror",
+]
+
+[[package]]
 name = "generic-array"
 version = "0.14.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
