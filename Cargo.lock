@@ -373,6 +373,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "generator-proxy-to-vkr"
+version = "0.0.0"
+dependencies = [
+ "astroport-generator-proxy",
+ "cosmwasm-bignumber",
+ "cosmwasm-schema",
+ "cosmwasm-std",
+ "cw-storage-plus",
+ "cw2",
+ "cw20",
+ "schemars",
+ "serde",
+ "thiserror",
+ "valkyrie",
+]
+
+[[package]]
 name = "generator-proxy-to-whale"
 version = "0.0.0"
 dependencies = [
@@ -727,6 +744,24 @@ name = "unicode-xid"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ccb82d61f80a663efe1f787a51b16b5a51e3314d6ac365b08639f52387b33f3"
+
+[[package]]
+name = "valkyrie"
+version = "1.0.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a59cf247e3c4d50b4d2382b4778fb36f5a65ea2b71d9683e5536dc185a783c8c"
+dependencies = [
+ "bigint",
+ "cosmwasm-std",
+ "cosmwasm-storage",
+ "cw-storage-plus",
+ "cw20",
+ "schemars",
+ "serde",
+ "terra-cosmwasm",
+ "terraswap",
+ "thiserror",
+]
 
 [[package]]
 name = "version_check"
