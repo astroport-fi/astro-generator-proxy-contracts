@@ -38,4 +38,4 @@ docker run --rm -v "$(pwd)":/code \
 
 ## License
 
-TBD
+[Apache License 2.0](https://github.com/astroport-fi/generator-proxy-contracts/blob/main/LICENSE)
