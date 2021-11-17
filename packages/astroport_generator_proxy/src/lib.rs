@@ -1,4 +1,5 @@
 pub mod anc_staking;
+pub mod apollo_factory;
 pub mod generator;
 pub mod generator_proxy;
 pub mod mars_staking;
