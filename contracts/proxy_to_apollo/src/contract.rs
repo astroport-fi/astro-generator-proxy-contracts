@@ -7,7 +7,8 @@ use cw20::{BalanceResponse, Cw20ExecuteMsg, Cw20QueryMsg, Cw20ReceiveMsg};
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
 use astroport_generator_proxy::apollo_factory::{
-    Cw20HookMsg as ApolloCw20HookMsg, ExecuteMsg as ApolloExecuteMsg, QueryMsg as WhaleQueryMsg,
+    Cw20HookMsg as ApolloFacCw20HookMsg, ExecuteMsg as ApolloFacExecuteMsg,
+    QueryMsg as ApolloFacQueryMsg,
 };
 use astroport_generator_proxy::generator_proxy::{
     Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
@@ -81,7 +82,7 @@ fn receive_cw20(
                 msg: to_binary(&Cw20ExecuteMsg::Send {
                     contract: cfg.reward_contract_addr.to_string(),
                     amount: cw20_msg.amount,
-                    msg: to_binary(&ApolloCw20HookMsg::Deposit {
+                    msg: to_binary(&ApolloFacCw20HookMsg::Deposit {
                         strategy_id: config.strategy_id,
                     })?,
                 })?,
@@ -102,7 +103,7 @@ fn update_rewards(deps: DepsMut) -> Result<Response, ContractError> {
         .push(SubMsg::new(CosmosMsg::Wasm(WasmMsg::Execute {
             contract_addr: cfg.reward_contract_addr.to_string(),
             funds: vec![],
-            msg: to_binary(&ApolloExecuteMsg::ClaimRewards {
+            msg: to_binary(&ApolloFacExecuteMsg::ClaimRewards {
                 strategy_id: config.strategy_id,
             })?,
         })));
@@ -157,7 +158,7 @@ fn withdraw(
     response.messages.push(SubMsg::new(WasmMsg::Execute {
         contract_addr: cfg.reward_contract_addr.to_string(),
         funds: vec![],
-        msg: to_binary(&ApolloExecuteMsg::WithdrawFromStrategy {
+        msg: to_binary(&ApolloFacExecuteMsg::WithdrawFromStrategy {
             strategy_id: config.strategy_id,
             amount: amount.into(),
         })?,
@@ -180,14 +181,16 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
     let cfg = CONFIG.load(deps.storage)?;
     match msg {
         QueryMsg::Deposit {} => {
-            let res: StakerInfoResponse = deps.querier.query_wasm_smart(
+            let res: GetUserStrategiesResponse = deps.querier.query_wasm_smart(
                 cfg.reward_contract_addr,
-                &WhaleQueryMsg::StakerInfo {
-                    staker: env.contract.address.to_string(),
-                    timestamp: None,
+                &ApolloFacQueryMsg::GetUserStrategies {
+                    user: env.contract.address.to_string(),
+                    limit: None,
+                    start_from: None,
                 },
             )?;
-            let deposit_amount = res.bond_amount;
+            let lp_staking_strat = res.strategies[0];
+            let deposit_amount = lp_staking_strat.base_token_balance;
             to_binary(&deposit_amount)
         }
         QueryMsg::Reward {} => {
@@ -202,14 +205,16 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
             to_binary(&reward_amount)
         }
         QueryMsg::PendingToken {} => {
-            let res: StakerInfoResponse = deps.querier.query_wasm_smart(
+            let res: GetUserStrategiesResponse = deps.querier.query_wasm_smart(
                 cfg.reward_contract_addr,
-                &WhaleQueryMsg::StakerInfo {
-                    staker: env.contract.address.to_string(),
-                    timestamp: None,
+                &ApolloFacQueryMsg::GetUserStrategies {
+                    user: env.contract.address.to_string(),
+                    limit: None,
+                    start_from: None,
                 },
             )?;
-            let pending_reward = res.pending_reward;
+            let lp_staking_strat = res.strategies[0];
+            let pending_reward = lp_staking_strat.lm_pending_reward;
             to_binary(&Some(pending_reward))
         }
         QueryMsg::RewardInfo {} => {
