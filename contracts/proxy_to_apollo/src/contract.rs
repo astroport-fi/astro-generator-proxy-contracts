@@ -8,14 +8,10 @@ use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
 use astroport_generator_proxy::apollo_factory::{
     Cw20HookMsg as ApolloFacCw20HookMsg, ExecuteMsg as ApolloFacExecuteMsg,
-    QueryMsg as ApolloFacQueryMsg,
+    GetUserStrategiesResponse, QueryMsg as ApolloFacQueryMsg,
 };
-use astroport_generator_proxy::generator_proxy::{
+use astroport_generator_proxy::generator_proxy_apollo::{
     Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
-};
-use astroport_generator_proxy::whale_staking::{
-    Cw20ReceiveMsg as ApolloFactoryCw20ReceiveMsg, ExecuteMsg as WhaleExecuteMsg,
-    QueryMsg as WhaleQueryMsg, StakerInfoResponse,
 };
 use cw2::set_contract_version;
 
@@ -38,6 +34,7 @@ pub fn instantiate(
         lp_token_addr: deps.api.addr_validate(&msg.lp_token_addr)?,
         reward_contract_addr: deps.api.addr_validate(&msg.reward_contract_addr)?,
         reward_token_addr: deps.api.addr_validate(&msg.reward_token_addr)?,
+        strategy_id: msg.strategy_id,
     };
     CONFIG.save(deps.storage, &config)?;
 
@@ -83,7 +80,7 @@ fn receive_cw20(
                     contract: cfg.reward_contract_addr.to_string(),
                     amount: cw20_msg.amount,
                     msg: to_binary(&ApolloFacCw20HookMsg::Deposit {
-                        strategy_id: config.strategy_id,
+                        strategy_id: cfg.strategy_id,
                     })?,
                 })?,
             })));
@@ -104,7 +101,7 @@ fn update_rewards(deps: DepsMut) -> Result<Response, ContractError> {
             contract_addr: cfg.reward_contract_addr.to_string(),
             funds: vec![],
             msg: to_binary(&ApolloFacExecuteMsg::ClaimRewards {
-                strategy_id: config.strategy_id,
+                strategy_id: Some(cfg.strategy_id),
             })?,
         })));
 
@@ -159,7 +156,7 @@ fn withdraw(
         contract_addr: cfg.reward_contract_addr.to_string(),
         funds: vec![],
         msg: to_binary(&ApolloFacExecuteMsg::WithdrawFromStrategy {
-            strategy_id: config.strategy_id,
+            strategy_id: cfg.strategy_id,
             amount: amount.into(),
         })?,
     }));
@@ -189,7 +186,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
                     start_from: None,
                 },
             )?;
-            let lp_staking_strat = res.strategies[0];
+            let lp_staking_strat = &res.strategies[0];
             let deposit_amount = lp_staking_strat.base_token_balance;
             to_binary(&deposit_amount)
         }
@@ -213,7 +210,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
                     start_from: None,
                 },
             )?;
-            let lp_staking_strat = res.strategies[0];
+            let lp_staking_strat = &res.strategies[0];
             let pending_reward = lp_staking_strat.lm_pending_reward;
             to_binary(&Some(pending_reward))
         }

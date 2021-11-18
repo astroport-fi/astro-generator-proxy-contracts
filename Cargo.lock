@@ -6,6 +6,7 @@ version = 3
 name = "astroport-generator-proxy"
 version = "1.0.0"
 dependencies = [
+ "cosmwasm-bignumber",
  "cosmwasm-schema",
  "cosmwasm-std",
  "cw20",

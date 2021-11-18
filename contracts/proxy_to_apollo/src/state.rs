@@ -11,6 +11,7 @@ pub struct Config {
     pub lp_token_addr: Addr,
     pub reward_contract_addr: Addr,
     pub reward_token_addr: Addr,
+    pub strategy_id: u64,
 }
 
 pub const CONFIG: Item<Config> = Item::new("config");
