@@ -1,4 +1,4 @@
-# Generator Proxy to WHALE LP Staking Rewards
+# Generator Proxy to APOLLO LP Staking Rewards
 
 The generator proxy contract interacts with the APOLLO LP staking contract (the Astroport dual rewards feature).
 
@@ -6,8 +6,7 @@ APOLLO Factory contract implementation: https://github.com/apollodao/apollo-cont
 
 APOLLO LP staking strategy contract implementation: https://github.com/apollodao/apollo-contracts/tree/master/contracts/strategies/apollo-static
 
-NOTE : APOLLO LP Staking interactions are routed via the Apollo factory contract which needs the `strategy_id` variable to identify the strategy.
-For this, we are using a customized version of `generator_proxy` named `generator_proxy_apollo` which stores the `strategy_id` variable in its Config, set during instantiation
+NOTE : APOLLO LP Staking interactions are routed via the Apollo factory contract which needs the `strategy_id` variable to identify the strategy. For this, we are using a customized version of `generator_proxy` named `generator_proxy_apollo` which stores the `strategy_id` variable in its Config, set during instantiation.
 
 The staking via proxy guide is [here](https://miro.medium.com/max/1400/0*8hn2NSnZJZTa9YGV).
 
