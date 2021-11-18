@@ -2,7 +2,7 @@
 
 The generator proxy contract interacts with the APOLLO LP staking contract (the Astroport dual rewards feature).
 
-APOLLO Factory contract implementation: https://github.com/apollodao/apollo-contracts/tree/master/contracts/apollo-factory
+APOLLO factory contract implementation: https://github.com/apollodao/apollo-contracts/tree/master/contracts/apollo-factory
 
 APOLLO LP staking strategy contract implementation: https://github.com/apollodao/apollo-contracts/tree/master/contracts/strategies/apollo-static
 
