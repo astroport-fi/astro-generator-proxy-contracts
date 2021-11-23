@@ -151,9 +151,7 @@ fn withdraw(
     response.messages.push(SubMsg::new(WasmMsg::Execute {
         contract_addr: cfg.reward_contract_addr.to_string(),
         funds: vec![],
-        msg: to_binary(&AncExecuteMsg::Unbond {
-            amount,
-        })?,
+        msg: to_binary(&AncExecuteMsg::Unbond { amount })?,
     }));
 
     response.messages.push(SubMsg::new(WasmMsg::Execute {

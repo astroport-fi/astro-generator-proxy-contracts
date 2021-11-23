@@ -186,13 +186,7 @@ fn test_send_rewards() {
 
     // succeeds when coming from generator
     let generator_info = mock_info("generator0000", &[]);
-    let res = execute(
-        deps.as_mut(),
-        mock_env(),
-        generator_info,
-        send_rewards_msg,
-    )
-    .unwrap();
+    let res = execute(deps.as_mut(), mock_env(), generator_info, send_rewards_msg).unwrap();
 
     assert_eq!(
         res.messages,
@@ -237,13 +231,7 @@ fn test_withdraw() {
 
     // succeeds when coming from generator
     let generator_info = mock_info("generator0000", &[]);
-    let res = execute(
-        deps.as_mut(),
-        mock_env(),
-        generator_info,
-        withrdaw_msg,
-    )
-    .unwrap();
+    let res = execute(deps.as_mut(), mock_env(), generator_info, withrdaw_msg).unwrap();
 
     assert_eq!(
         res.messages,
@@ -299,13 +287,7 @@ fn test_emergency_withdraw() {
 
     // succeeds when coming from generator
     let generator_info = mock_info("generator0000", &[]);
-    let res = execute(
-        deps.as_mut(),
-        mock_env(),
-        generator_info,
-        withrdaw_msg,
-    )
-    .unwrap();
+    let res = execute(deps.as_mut(), mock_env(), generator_info, withrdaw_msg).unwrap();
 
     assert_eq!(
         res.messages,
