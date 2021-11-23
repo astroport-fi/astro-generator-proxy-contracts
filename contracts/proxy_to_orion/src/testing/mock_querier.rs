@@ -82,7 +82,6 @@ pub enum QueryMsg {
         staker: String,
         timestamp: Option<u64>,
     },
-    Balance {},
 }
 
 impl Querier for WasmMockQuerier {

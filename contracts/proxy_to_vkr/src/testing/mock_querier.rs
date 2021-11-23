@@ -79,7 +79,6 @@ impl RewardQuerier {
 #[serde(rename_all = "snake_case")]
 pub enum QueryMsg {
     StakerInfo { staker: String },
-    Balance {},
 }
 
 impl Querier for WasmMockQuerier {

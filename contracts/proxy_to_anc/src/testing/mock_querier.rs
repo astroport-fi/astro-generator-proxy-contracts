@@ -82,7 +82,6 @@ pub enum QueryMsg {
         staker: String,
         block_height: Option<u64>,
     },
-    Balance {},
 }
 
 impl Querier for WasmMockQuerier {
