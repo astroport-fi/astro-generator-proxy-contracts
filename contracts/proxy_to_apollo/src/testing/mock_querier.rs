@@ -116,13 +116,13 @@ impl WasmMockQuerier {
                     &GetUserStrategiesResponse {
                         strategies: vec![FactoryUserInfoResponse {
                             id: 3,
-                            base_token_balance: self.reward_querier.deposit_amount.clone(),
+                            base_token_balance: self.reward_querier.deposit_amount,
                             pending_reward: Uint128::zero(),
                             extension_pending_reward: Uint128::zero(),
                             reward_index: Decimal256::zero(),
                             extension_reward_index: Decimal256::zero(),
                             shares: Uint128::zero(),
-                            lm_pending_reward: self.reward_querier.pending_reward.clone(),
+                            lm_pending_reward: self.reward_querier.pending_reward,
                             lm_reward_index: Decimal256::zero(),
                         }],
                     },

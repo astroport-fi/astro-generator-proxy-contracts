@@ -152,7 +152,7 @@ fn withdraw(
         contract_addr: cfg.reward_contract_addr.to_string(),
         funds: vec![],
         msg: to_binary(&AncExecuteMsg::Unbond {
-            amount: amount.into(),
+            amount,
         })?,
     }));
 

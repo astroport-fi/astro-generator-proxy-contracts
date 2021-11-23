@@ -198,7 +198,7 @@ fn test_send_rewards() {
         deps.as_mut(),
         mock_env(),
         generator_info,
-        send_rewards_msg.clone(),
+        send_rewards_msg,
     )
     .unwrap();
 
@@ -250,7 +250,7 @@ fn test_withdraw() {
         deps.as_mut(),
         mock_env(),
         generator_info,
-        withrdaw_msg.clone(),
+        withrdaw_msg,
     )
     .unwrap();
 
@@ -313,7 +313,7 @@ fn test_emergency_withdraw() {
         deps.as_mut(),
         mock_env(),
         generator_info,
-        withrdaw_msg.clone(),
+        withrdaw_msg,
     )
     .unwrap();
 
@@ -356,7 +356,7 @@ fn test_query_reward_info() {
     };
 
     let info = mock_info("addr0000", &[]);
-    let _res = instantiate(deps.as_mut(), mock_env(), info.clone(), msg).unwrap();
+    let _res = instantiate(deps.as_mut(), mock_env(), info, msg).unwrap();
 
     let res = query(deps.as_ref(), mock_env(), QueryMsg::RewardInfo {}).unwrap();
     let query_res: Addr = from_binary(&res).unwrap();

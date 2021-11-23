@@ -105,8 +105,8 @@ impl WasmMockQuerier {
                     SystemResult::Ok(ContractResult::from(to_binary(&StakerInfoResponse {
                         staker: "generator0000".to_string(),
                         reward_index: Decimal::zero(),
-                        bond_amount: self.reward_querier.deposit_amount.clone(),
-                        pending_reward: self.reward_querier.pending_reward.clone(),
+                        bond_amount: self.reward_querier.deposit_amount,
+                        pending_reward: self.reward_querier.pending_reward,
                     })))
                 }
                 _ => match from_binary(msg).unwrap() {

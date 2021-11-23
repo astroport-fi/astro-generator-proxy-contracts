@@ -157,7 +157,7 @@ fn withdraw(
         funds: vec![],
         msg: to_binary(&ApolloFacExecuteMsg::WithdrawFromStrategy {
             strategy_id: cfg.strategy_id,
-            amount: amount.into(),
+            amount,
         })?,
     }));
 
