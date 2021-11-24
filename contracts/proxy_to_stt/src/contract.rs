@@ -10,7 +10,7 @@ use astroport_generator_proxy::generator_proxy::{
     Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
 };
 use astroport_generator_proxy::stt_staking::{
-    Cw20HookMsg as AncCw20HookMsg, ExecuteMsg as AncExecuteMsg, QueryMsg as AncQueryMsg,
+    Cw20HookMsg as SttCw20HookMsg, ExecuteMsg as SttExecuteMsg, QueryMsg as SttQueryMsg,
     StakerInfoResponse,
 };
 use cw2::set_contract_version;
@@ -79,7 +79,7 @@ fn receive_cw20(
                 msg: to_binary(&Cw20ExecuteMsg::Send {
                     contract: cfg.reward_contract_addr.to_string(),
                     amount: cw20_msg.amount,
-                    msg: to_binary(&AncCw20HookMsg::Bond {})?,
+                    msg: to_binary(&SttCw20HookMsg::Bond {})?,
                 })?,
             })));
     } else {
@@ -98,7 +98,7 @@ fn update_rewards(deps: DepsMut) -> Result<Response, ContractError> {
         .push(SubMsg::new(CosmosMsg::Wasm(WasmMsg::Execute {
             contract_addr: cfg.reward_contract_addr.to_string(),
             funds: vec![],
-            msg: to_binary(&AncExecuteMsg::Withdraw {})?,
+            msg: to_binary(&SttExecuteMsg::Withdraw {})?,
         })));
 
     Ok(response)
@@ -147,11 +147,18 @@ fn withdraw(
         return Err(ContractError::Unauthorized {});
     };
 
-    // withdraw from the end reward contract
     response.messages.push(SubMsg::new(WasmMsg::Execute {
         contract_addr: cfg.reward_contract_addr.to_string(),
         funds: vec![],
-        msg: to_binary(&AncExecuteMsg::Unbond {
+        msg: to_binary(&SttExecuteMsg::SubmitToUnbond {
+            amount: amount.into(),
+        })?,
+    }));
+
+    response.messages.push(SubMsg::new(WasmMsg::Execute {
+        contract_addr: cfg.reward_contract_addr.to_string(),
+        funds: vec![],
+        msg: to_binary(&SttExecuteMsg::Unbond {
             amount: amount.into(),
         })?,
     }));
@@ -175,9 +182,9 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
         QueryMsg::Deposit {} => {
             let res: StakerInfoResponse = deps.querier.query_wasm_smart(
                 cfg.reward_contract_addr,
-                &AncQueryMsg::StakerInfo {
+                &SttQueryMsg::StakerInfo {
                     staker: env.contract.address.to_string(),
-                    block_height: None,
+                    block_time: None,
                 },
             )?;
             let deposit_amount = res.bond_amount;
@@ -197,9 +204,9 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
         QueryMsg::PendingToken {} => {
             let res: StakerInfoResponse = deps.querier.query_wasm_smart(
                 cfg.reward_contract_addr,
-                &AncQueryMsg::StakerInfo {
+                &SttQueryMsg::StakerInfo {
                     staker: env.contract.address.to_string(),
-                    block_height: None,
+                    block_time: None,
                 },
             )?;
             let pending_reward = res.pending_reward;
