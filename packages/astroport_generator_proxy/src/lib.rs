@@ -7,6 +7,7 @@ pub mod mars_staking;
 pub mod mine_staking;
 pub mod orion_staking;
 pub mod psi_staking;
+pub mod stt_staking;
 pub mod whale_staking;
 
 #[allow(clippy::all)]
