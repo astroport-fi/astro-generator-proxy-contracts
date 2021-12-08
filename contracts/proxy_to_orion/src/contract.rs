@@ -7,7 +7,7 @@ use cw20::{BalanceResponse, Cw20ExecuteMsg, Cw20QueryMsg, Cw20ReceiveMsg};
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
 use astroport_generator_proxy::generator_proxy::{
-    Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
+    ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
 };
 use astroport_generator_proxy::orion_staking::{
     Cw20HookMsg as OrionCw20HookMsg, ExecuteMsg as OrionExecuteMsg, QueryMsg as OrionQueryMsg,
@@ -170,6 +170,13 @@ fn withdraw(
 pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
     let cfg = CONFIG.load(deps.storage)?;
     match msg {
+        QueryMsg::Config {} => to_binary(&ConfigResponse {
+            generator_contract_addr: cfg.generator_contract_addr.to_string(),
+            pair_addr: cfg.pair_addr.to_string(),
+            lp_token_addr: cfg.lp_token_addr.to_string(),
+            reward_contract_addr: cfg.reward_contract_addr.to_string(),
+            reward_token_addr: cfg.reward_token_addr.to_string(),
+        }),
         QueryMsg::Deposit {} => {
             let res: StakerInfoResponse = deps.querier.query_wasm_smart(
                 cfg.reward_contract_addr,

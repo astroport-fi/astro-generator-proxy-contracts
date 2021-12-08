@@ -28,9 +28,12 @@ pub enum ExecuteMsg {
     EmergencyWithdraw { account: Addr, amount: Uint128 },
 }
 
+pub type ConfigResponse = InstantiateMsg;
+
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum QueryMsg {
+    Config {},
     Deposit {},
     Reward {},
     PendingToken {},
