@@ -175,7 +175,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
                 cfg.reward_contract_addr,
                 &PsiQueryMsg::StakerInfo {
                     staker: env.contract.address.to_string(),
-                    time_seconds: None,
+                    time_seconds: Some(env.block.time.seconds()),
                 },
             )?;
             let deposit_amount = res.bond_amount;
@@ -197,7 +197,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
                 cfg.reward_contract_addr,
                 &PsiQueryMsg::StakerInfo {
                     staker: env.contract.address.to_string(),
-                    time_seconds: None,
+                    time_seconds: Some(env.block.time.seconds()),
                 },
             )?;
             let pending_reward = res.pending_reward;
