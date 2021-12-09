@@ -181,7 +181,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
                 cfg.reward_contract_addr,
                 &MineQueryMsg::StakerInfo {
                     staker: env.contract.address.to_string(),
-                    block_height: None,
+                    block_height: Some(env.block.height),
                 },
             )?;
             let deposit_amount = res.bond_amount;
@@ -203,7 +203,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
                 cfg.reward_contract_addr,
                 &MineQueryMsg::StakerInfo {
                     staker: env.contract.address.to_string(),
-                    block_height: None,
+                    block_height: Some(env.block.height),
                 },
             )?;
             let pending_reward = res.pending_reward;
