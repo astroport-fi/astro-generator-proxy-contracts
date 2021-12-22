@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "InstantiateMsg",
+  "title": "Description",
+  "description": "This structure describes the basic settings for creating a contract.",
   "type": "object",
   "required": [
     "generator_contract_addr",
@@ -11,18 +12,23 @@
   ],
   "properties": {
     "generator_contract_addr": {
+      "description": "the generator contract address",
       "type": "string"
     },
     "lp_token_addr": {
+      "description": "the liquidity pool token contract address",
       "type": "string"
     },
     "pair_addr": {
+      "description": "the pair contract address",
       "type": "string"
     },
     "reward_contract_addr": {
+      "description": "the reward contract address",
       "type": "string"
     },
     "reward_token_addr": {
+      "description": "the reward token contract address",
       "type": "string"
     }
   }
