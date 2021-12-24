@@ -7,7 +7,7 @@ use cw20::{BalanceResponse, Cw20ExecuteMsg, Cw20QueryMsg, Cw20ReceiveMsg};
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
 use astroport_generator_proxy::generator_proxy::{
-    ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
+    CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
 };
 use astroport_generator_proxy::psi_staking::{
     Cw20HookMsg as PsiCw20HookMsg, ExecuteMsg as PsiExecuteMsg, QueryMsg as PsiQueryMsg,
@@ -51,11 +51,31 @@ pub fn execute(
         ExecuteMsg::Receive(msg) => receive_cw20(deps, env, info, msg),
         ExecuteMsg::UpdateRewards {} => update_rewards(deps),
         ExecuteMsg::SendRewards { account, amount } => send_rewards(deps, info, account, amount),
-        ExecuteMsg::Withdraw { account, amount } => withdraw(deps, info, account, amount),
-        ExecuteMsg::EmergencyWithdraw { account, amount } => withdraw(deps, info, account, amount),
+        ExecuteMsg::Withdraw { account, amount } => withdraw(deps, env, info, account, amount),
+        ExecuteMsg::EmergencyWithdraw { account, amount } => {
+            withdraw(deps, env, info, account, amount)
+        }
+        ExecuteMsg::Callback(msg) => handle_callback(deps, env, info, msg),
     }
 }
 
+pub fn handle_callback(
+    deps: DepsMut,
+    env: Env,
+    info: MessageInfo,
+    msg: CallbackMsg,
+) -> Result<Response, ContractError> {
+    // Callback functions can only be called this contract itself
+    if info.sender != env.contract.address {
+        return Err(ContractError::Unauthorized {});
+    }
+    match msg {
+        CallbackMsg::TransferLpTokensAfterWithdraw {
+            account,
+            prev_lp_balance,
+        } => transfer_lp_tokens_after_withdraw(deps, env, account, prev_lp_balance),
+    }
+}
 /// @dev Receives LP tokens sent by Generator contract.
 /// Stakes them with the PSI LP Staking contract
 fn receive_cw20(
@@ -137,6 +157,7 @@ fn send_rewards(
 /// @param amount : Number of LP to be unstaked and transferred
 fn withdraw(
     deps: DepsMut,
+    env: Env,
     info: MessageInfo,
     account: Addr,
     amount: Uint128,
@@ -146,7 +167,16 @@ fn withdraw(
     if info.sender != cfg.generator_contract_addr {
         return Err(ContractError::Unauthorized {});
     };
-
+    // current LP Tokens balance
+    let prev_lp_balance = {
+        let res: BalanceResponse = deps.querier.query_wasm_smart(
+            &cfg.lp_token_addr,
+            &Cw20QueryMsg::Balance {
+                address: env.contract.address.to_string(),
+            },
+        )?;
+        res.balance
+    };
     // withdraw from the end reward contract
     response.messages.push(SubMsg::new(WasmMsg::Execute {
         contract_addr: cfg.reward_contract_addr.to_string(),
@@ -154,16 +184,48 @@ fn withdraw(
         msg: to_binary(&PsiExecuteMsg::Unbond { amount })?,
     }));
 
+    // Callback function
     response.messages.push(SubMsg::new(WasmMsg::Execute {
+        contract_addr: env.contract.address.to_string(),
+        funds: vec![],
+        msg: to_binary(&ExecuteMsg::Callback(
+            CallbackMsg::TransferLpTokensAfterWithdraw {
+                account,
+                prev_lp_balance,
+            },
+        ))?,
+    }));
+
+    Ok(response)
+}
+
+pub fn transfer_lp_tokens_after_withdraw(
+    deps: DepsMut,
+    env: Env,
+    account: Addr,
+    prev_lp_balance: Uint128,
+) -> Result<Response, ContractError> {
+    let cfg = CONFIG.load(deps.storage)?;
+
+    // Calculate number of LP Tokens withdrawn from the staking contract
+    let amount = {
+        let res: BalanceResponse = deps.querier.query_wasm_smart(
+            &cfg.lp_token_addr,
+            &Cw20QueryMsg::Balance {
+                address: env.contract.address.to_string(),
+            },
+        )?;
+        res.balance - prev_lp_balance
+    };
+
+    Ok(Response::new().add_message(WasmMsg::Execute {
         contract_addr: cfg.lp_token_addr.to_string(),
         funds: vec![],
         msg: to_binary(&Cw20ExecuteMsg::Transfer {
             recipient: account.to_string(),
             amount,
         })?,
-    }));
-
-    Ok(response)
+    }))
 }
 
 #[cfg_attr(not(feature = "library"), entry_point)]

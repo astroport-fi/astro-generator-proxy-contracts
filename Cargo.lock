@@ -342,6 +342,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "generator-proxy-to-kuji"
+version = "0.0.0"
+dependencies = [
+ "astroport-generator-proxy",
+ "cosmwasm-bignumber",
+ "cosmwasm-schema",
+ "cosmwasm-std",
+ "cw-storage-plus",
+ "cw2",
+ "cw20",
+ "schemars",
+ "serde",
+ "thiserror",
+]
+
+[[package]]
 name = "generator-proxy-to-mars"
 version = "0.0.0"
 dependencies = [
@@ -440,6 +456,22 @@ dependencies = [
 
 [[package]]
 name = "generator-proxy-to-whale"
+version = "0.0.0"
+dependencies = [
+ "astroport-generator-proxy",
+ "cosmwasm-bignumber",
+ "cosmwasm-schema",
+ "cosmwasm-std",
+ "cw-storage-plus",
+ "cw2",
+ "cw20",
+ "schemars",
+ "serde",
+ "thiserror",
+]
+
+[[package]]
+name = "generator-proxy-to-xdefi"
 version = "0.0.0"
 dependencies = [
  "astroport-generator-proxy",

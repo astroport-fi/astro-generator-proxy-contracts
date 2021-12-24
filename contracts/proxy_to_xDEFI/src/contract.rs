@@ -6,17 +6,17 @@ use cw20::{BalanceResponse, Cw20ExecuteMsg, Cw20QueryMsg, Cw20ReceiveMsg};
 
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
+use astroport_generator_proxy::anc_staking::{
+    Cw20HookMsg as XdefiCw20HookMsg, ExecuteMsg as XdefiExecuteMsg, QueryMsg as XdefiQueryMsg,
+    StakerInfoResponse,
+};
 use astroport_generator_proxy::generator_proxy::{
     CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
 };
 use cw2::set_contract_version;
-use valkyrie::lp_staking::execute_msgs::{
-    Cw20HookMsg as VkrCw20HookMsg, ExecuteMsg as VkrExecuteMsg,
-};
-use valkyrie::lp_staking::query_msgs::{QueryMsg as VkrQueryMsg, StakerInfoResponse};
 
 // version info for migration info
-const CONTRACT_NAME: &str = "astroport-generator-proxy-to-vkr";
+const CONTRACT_NAME: &str = "astroport-generator-proxy-to-xDEFI";
 const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[cfg_attr(not(feature = "library"), entry_point)]
@@ -78,7 +78,7 @@ pub fn handle_callback(
 }
 
 /// @dev Receives LP tokens sent by Generator contract.
-/// Stakes them with the VKR LP Staking contract
+/// Stakes them with the xDEFI LP Staking contract
 fn receive_cw20(
     deps: DepsMut,
     _env: Env,
@@ -100,7 +100,7 @@ fn receive_cw20(
                 msg: to_binary(&Cw20ExecuteMsg::Send {
                     contract: cfg.reward_contract_addr.to_string(),
                     amount: cw20_msg.amount,
-                    msg: to_binary(&VkrCw20HookMsg::Bond {})?,
+                    msg: to_binary(&XdefiCw20HookMsg::Bond {})?,
                 })?,
             })));
     } else {
@@ -109,7 +109,7 @@ fn receive_cw20(
     Ok(response)
 }
 
-/// @dev Claims pending rewards from the VKR LP staking contract
+/// @dev Claims pending rewards from the xDEFI LP staking contract
 fn update_rewards(deps: DepsMut) -> Result<Response, ContractError> {
     let mut response = Response::new();
     let cfg = CONFIG.load(deps.storage)?;
@@ -119,15 +119,15 @@ fn update_rewards(deps: DepsMut) -> Result<Response, ContractError> {
         .push(SubMsg::new(CosmosMsg::Wasm(WasmMsg::Execute {
             contract_addr: cfg.reward_contract_addr.to_string(),
             funds: vec![],
-            msg: to_binary(&VkrExecuteMsg::Withdraw {})?,
+            msg: to_binary(&XdefiExecuteMsg::Withdraw {})?,
         })));
 
     Ok(response)
 }
 
-/// @dev Transfers VKR rewards
-/// @param account : User to which VKR tokens are to be transferred
-/// @param amount : Number of VKR to be transferred
+/// @dev Transfers xDEFI rewards
+/// @param account : User to which xDEFI tokens are to be transferred
+/// @param amount : Number of xDEFI to be transferred
 fn send_rewards(
     deps: DepsMut,
     info: MessageInfo,
@@ -168,6 +168,7 @@ fn withdraw(
     if info.sender != cfg.generator_contract_addr {
         return Err(ContractError::Unauthorized {});
     };
+
     // current LP Tokens balance
     let prev_lp_balance = {
         let res: BalanceResponse = deps.querier.query_wasm_smart(
@@ -183,7 +184,7 @@ fn withdraw(
     response.messages.push(SubMsg::new(WasmMsg::Execute {
         contract_addr: cfg.reward_contract_addr.to_string(),
         funds: vec![],
-        msg: to_binary(&VkrExecuteMsg::Unbond { amount })?,
+        msg: to_binary(&XdefiExecuteMsg::Unbond { amount })?,
     }));
 
     // Callback function
@@ -229,6 +230,7 @@ pub fn transfer_lp_tokens_after_withdraw(
         })?,
     }))
 }
+
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
     let cfg = CONFIG.load(deps.storage)?;
@@ -243,8 +245,9 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
         QueryMsg::Deposit {} => {
             let res: StakerInfoResponse = deps.querier.query_wasm_smart(
                 cfg.reward_contract_addr,
-                &VkrQueryMsg::StakerInfo {
+                &XdefiQueryMsg::StakerInfo {
                     staker: env.contract.address.to_string(),
+                    block_height: Some(env.block.height),
                 },
             )?;
             let deposit_amount = res.bond_amount;
@@ -264,8 +267,9 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
         QueryMsg::PendingToken {} => {
             let res: StakerInfoResponse = deps.querier.query_wasm_smart(
                 cfg.reward_contract_addr,
-                &VkrQueryMsg::StakerInfo {
+                &XdefiQueryMsg::StakerInfo {
                     staker: env.contract.address.to_string(),
+                    block_height: Some(env.block.height),
                 },
             )?;
             let pending_reward = res.pending_reward;
