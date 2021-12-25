@@ -2,7 +2,7 @@
 
 The generator proxy contract interacts with the KUJI LP staking contract (the Astroport dual rewards feature).
 
-KUJI LP Staking contract implementation: https://github.com/Nexus-Protocol/services-contracts/tree/master/contracts/staking (using nexus contract only)
+KUJI LP Staking contract implementation: https://github.com/Nexus-Protocol/services-contracts/tree/master/contracts/staking (using the Nexus protocol staking contract implementation).
 
 The staking via proxy guide is [here](https://miro.medium.com/max/1400/0*8hn2NSnZJZTa9YGV).
 
