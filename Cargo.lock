@@ -3,6 +3,21 @@
 version = 3
 
 [[package]]
+name = "astroport"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e584f958fdd1eba188f5c45fd174f670e04db9bf5ca5d60edcc89de581135434"
+dependencies = [
+ "cosmwasm-std",
+ "cw-storage-plus",
+ "cw20",
+ "schemars",
+ "serde",
+ "terra-cosmwasm",
+ "uint",
+]
+
+[[package]]
 name = "astroport-generator-proxy"
 version = "1.0.0"
 dependencies = [
@@ -390,6 +405,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "generator-proxy-to-mirror"
+version = "1.0.0"
+dependencies = [
+ "astroport",
+ "astroport-generator-proxy",
+ "cosmwasm-schema",
+ "cosmwasm-std",
+ "cw-storage-plus",
+ "cw2",
+ "cw20",
+ "mirror-protocol",
+ "schemars",
+ "serde",
+ "thiserror",
+]
+
+[[package]]
 name = "generator-proxy-to-orion"
 version = "0.0.0"
 dependencies = [
@@ -568,6 +600,20 @@ name = "libc"
 version = "0.2.105"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "869d572136620d55835903746bcb5cdc54cb2851fd0aeec53220b4bb65ef3013"
+
+[[package]]
+name = "mirror-protocol"
+version = "2.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "68b4a3ba65a8fd11cd24862cc49a2c4eebb98e8dfd38d43df72145cde19d9ca6"
+dependencies = [
+ "cosmwasm-std",
+ "cosmwasm-storage",
+ "cw20",
+ "schemars",
+ "serde",
+ "terraswap",
+]
 
 [[package]]
 name = "opaque-debug"
