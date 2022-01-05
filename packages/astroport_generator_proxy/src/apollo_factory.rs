@@ -1,5 +1,5 @@
 use cosmwasm_bignumber::{Decimal256, Uint256};
-use cosmwasm_std::{Addr, Binary, Decimal, Uint128};
+use cosmwasm_std::{Addr, Binary, CanonicalAddr, Decimal, Uint128};
 use cw20::Cw20ReceiveMsg;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -22,6 +22,7 @@ pub enum ExecuteMsg {
         execution_paused: Option<bool>,
         deposits_paused: Option<bool>,
         withdrawals_paused: Option<bool>,
+        rewards_paused: Option<bool>,
     },
     ExecuteStrategy {
         strategy_id: u64,
@@ -39,7 +40,6 @@ pub enum ExecuteMsg {
         warchest: Option<String>,
         distribution_schedule: Option<Vec<(u64, u64, Uint128)>>,
         genesis_time: Option<u64>,
-        oracle: Option<String>,
         apollo_token: Option<String>,
         apollo_reward_percentage: Option<Decimal>,
     },
@@ -48,9 +48,6 @@ pub enum ExecuteMsg {
     },
     ZapOutOfStrategy {
         strategy_id: u64,
-        amount: Uint128,
-    },
-    RegisterFee {
         amount: Uint128,
     },
     PassMessage {
@@ -87,6 +84,26 @@ pub enum QueryMsg {
     GetTotalCollectedFees {},
     GetExtensionTotalCollectedFees {},
     GetTotalRewardWeight {},
+    GetTotalCfeRewardsByUser {
+        address: String,
+    },
+    GetStakerInfo {
+        staker: String,
+        strategy_id: u64,
+        time: Option<u64>,
+    },
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[schemars(deny_unknown_fields)]
+pub struct FactoryConfig {
+    pub owner: CanonicalAddr,
+    pub warchest: CanonicalAddr,
+    // ( initial time , token distribution period, total distribution amount)
+    pub distribution_schedule: Vec<(u64, u64, Uint128)>,
+    pub genesis_time: u64,
+    pub apollo_token: CanonicalAddr,
+    pub apollo_reward_percentage: Decimal, //Percentage of rewards going to apollo strategies
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
@@ -144,7 +161,6 @@ pub struct GetConfigResponse {
     pub warchest: Addr,
     pub distribution_schedule: Vec<(u64, u64, Uint128)>,
     pub genesis_time: u64,
-    pub oracle: Addr,
     pub apollo_token: Addr,
     pub apollo_reward_percentage: Decimal,
 }
@@ -174,8 +190,23 @@ pub struct GetTotalRewardWeightResponse {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[schemars(deny_unknown_fields)]
+pub struct GetTotalCfeRewardsResponse {
+    pub pending_reward: Uint128,
+    pub extension_pending_reward: Uint128,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 #[schemars(deny_unknown_fields)]
 pub enum Cw20HookMsg {
     Deposit { strategy_id: u64 },
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct StakerInfoResponse {
+    pub staker: String,
+    pub reward_index: Decimal,
+    pub bond_amount: Uint128,
+    pub pending_reward: Uint128,
 }
