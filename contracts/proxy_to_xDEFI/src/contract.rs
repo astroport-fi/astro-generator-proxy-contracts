@@ -6,12 +6,12 @@ use cw20::{BalanceResponse, Cw20ExecuteMsg, Cw20QueryMsg, Cw20ReceiveMsg};
 
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
+use astroport::generator_proxy::{
+    CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
+};
 use astroport_generator_proxy::anc_staking::{
     Cw20HookMsg as XdefiCw20HookMsg, ExecuteMsg as XdefiExecuteMsg, QueryMsg as XdefiQueryMsg,
     StakerInfoResponse,
-};
-use astroport_generator_proxy::generator_proxy::{
-    CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
 };
 use cw2::set_contract_version;
 
