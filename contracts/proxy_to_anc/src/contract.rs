@@ -13,6 +13,7 @@ use anchor_token::staking::{
 use astroport::generator_proxy::{
     CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
 };
+
 use cw2::set_contract_version;
 
 // version info for migration info
@@ -247,7 +248,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
                 cfg.reward_contract_addr,
                 &AncQueryMsg::StakerInfo {
                     staker: env.contract.address.to_string(),
-                    block_height: Some(env.block.height),
+                    block_time: Some(env.block.time.seconds()),
                 },
             )?;
             let deposit_amount = res.bond_amount;
@@ -269,7 +270,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
                 cfg.reward_contract_addr,
                 &AncQueryMsg::StakerInfo {
                     staker: env.contract.address.to_string(),
-                    block_height: Some(env.block.height),
+                    block_time: Some(env.block.time.seconds()),
                 },
             )?;
             let pending_reward = res.pending_reward;
