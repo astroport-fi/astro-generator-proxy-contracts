@@ -252,7 +252,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
                 &ApolloFacQueryMsg::GetStakerInfo {
                     staker: env.contract.address.to_string(),
                     strategy_id: cfg.strategy_id,
-                    time: Some(env.block.time.seconds()),
+                    time: None,
                 },
             )?;
             let deposit_amount = res.bond_amount;
@@ -275,7 +275,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
                 &ApolloFacQueryMsg::GetStakerInfo {
                     staker: env.contract.address.to_string(),
                     strategy_id: cfg.strategy_id,
-                    time: Some(env.block.time.seconds()),
+                    time: None,
                 },
             )?;
             let pending_reward = res.pending_reward;
