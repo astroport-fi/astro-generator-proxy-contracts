@@ -8,7 +8,7 @@ use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
 use astroport_generator_proxy::apollo_factory::{
     Cw20HookMsg as ApolloFacCw20HookMsg, ExecuteMsg as ApolloFacExecuteMsg,
-    GetUserStrategiesResponse, QueryMsg as ApolloFacQueryMsg,
+    QueryMsg as ApolloFacQueryMsg, StakerInfoResponse,
 };
 use astroport_generator_proxy::generator_proxy_apollo::{
     CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
@@ -247,16 +247,15 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
             strategy_id: cfg.strategy_id,
         }),
         QueryMsg::Deposit {} => {
-            let res: GetUserStrategiesResponse = deps.querier.query_wasm_smart(
+            let res: StakerInfoResponse = deps.querier.query_wasm_smart(
                 cfg.reward_contract_addr,
-                &ApolloFacQueryMsg::GetUserStrategies {
-                    user: env.contract.address.to_string(),
-                    limit: None,
-                    start_from: None,
+                &ApolloFacQueryMsg::GetStakerInfo {
+                    staker: env.contract.address.to_string(),
+                    strategy_id: cfg.strategy_id,
+                    time: Some(env.block.time.seconds()),
                 },
             )?;
-            let lp_staking_strat = &res.strategies[0];
-            let deposit_amount = lp_staking_strat.base_token_balance;
+            let deposit_amount = res.bond_amount;
             to_binary(&deposit_amount)
         }
         QueryMsg::Reward {} => {
@@ -271,16 +270,15 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
             to_binary(&reward_amount)
         }
         QueryMsg::PendingToken {} => {
-            let res: GetUserStrategiesResponse = deps.querier.query_wasm_smart(
+            let res: StakerInfoResponse = deps.querier.query_wasm_smart(
                 cfg.reward_contract_addr,
-                &ApolloFacQueryMsg::GetUserStrategies {
-                    user: env.contract.address.to_string(),
-                    limit: None,
-                    start_from: None,
+                &ApolloFacQueryMsg::GetStakerInfo {
+                    staker: env.contract.address.to_string(),
+                    strategy_id: cfg.strategy_id,
+                    time: Some(env.block.time.seconds()),
                 },
             )?;
-            let lp_staking_strat = &res.strategies[0];
-            let pending_reward = lp_staking_strat.lm_pending_reward;
+            let pending_reward = res.pending_reward;
             to_binary(&Some(pending_reward))
         }
         QueryMsg::RewardInfo {} => {

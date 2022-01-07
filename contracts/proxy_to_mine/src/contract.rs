@@ -6,14 +6,14 @@ use cw20::{BalanceResponse, Cw20ExecuteMsg, Cw20QueryMsg, Cw20ReceiveMsg};
 
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
-use astroport_generator_proxy::generator_proxy::{
+use astroport::generator_proxy::{
     CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
 };
-use astroport_generator_proxy::mine_staking::{
+use cw2::set_contract_version;
+use pylon_token::staking::{
     Cw20HookMsg as MineCw20HookMsg, ExecuteMsg as MineExecuteMsg, QueryMsg as MineQueryMsg,
     StakerInfoResponse,
 };
-use cw2::set_contract_version;
 
 // version info for migration info
 const CONTRACT_NAME: &str = "astroport-generator-proxy-to-mine";

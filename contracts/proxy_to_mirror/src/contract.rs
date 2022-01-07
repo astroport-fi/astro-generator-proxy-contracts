@@ -7,7 +7,7 @@ use cw20::{BalanceResponse, Cw20ExecuteMsg, Cw20QueryMsg, Cw20ReceiveMsg};
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
 use astroport::asset::addr_validate_to_lower;
-use astroport_generator_proxy::generator_proxy::{
+use astroport::generator_proxy::{
     CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
 };
 use cw2::set_contract_version;
@@ -130,7 +130,7 @@ fn receive_cw20(
                     contract: cfg.reward_contract_addr.to_string(),
                     amount: cw20_msg.amount,
                     msg: to_binary(&MirrorCw20HookMsg::Bond {
-                        asset_token: cfg.pair_addr.into_string(),
+                        asset_token: cfg.reward_token_addr.into_string(),
                     })?,
                 })?,
             })));
@@ -156,7 +156,7 @@ fn update_rewards(deps: DepsMut) -> Result<Response, ContractError> {
             contract_addr: cfg.reward_contract_addr.to_string(),
             funds: vec![],
             msg: to_binary(&MirrorExecuteMsg::Withdraw {
-                asset_token: Some(cfg.pair_addr.into_string()),
+                asset_token: Some(cfg.reward_token_addr.into_string()),
             })?,
         })));
 
@@ -247,7 +247,7 @@ fn withdraw(
         contract_addr: cfg.reward_contract_addr.to_string(),
         funds: vec![],
         msg: to_binary(&MirrorExecuteMsg::Unbond {
-            asset_token: cfg.pair_addr.to_string(),
+            asset_token: cfg.reward_token_addr.to_string(),
             amount,
         })?,
     }));
@@ -371,7 +371,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
                 cfg.reward_contract_addr,
                 &MirrorQueryMsg::RewardInfo {
                     staker_addr: env.contract.address.to_string(),
-                    asset_token: Some(cfg.pair_addr.to_string()),
+                    asset_token: Some(cfg.reward_token_addr.to_string()),
                 },
             );
             let reward_infos = res?.reward_infos;
@@ -399,7 +399,7 @@ pub fn query(deps: Deps, env: Env, msg: QueryMsg) -> StdResult<Binary> {
                 cfg.reward_contract_addr,
                 &MirrorQueryMsg::RewardInfo {
                     staker_addr: env.contract.address.to_string(),
-                    asset_token: Some(cfg.pair_addr.to_string()),
+                    asset_token: Some(cfg.reward_token_addr.to_string()),
                 },
             );
             let reward_infos = res?.reward_infos;

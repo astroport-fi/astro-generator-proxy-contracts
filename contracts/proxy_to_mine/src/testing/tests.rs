@@ -2,9 +2,7 @@ use crate::contract::{execute, instantiate, query};
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
 use crate::testing::mock_querier::mock_dependencies;
-use astroport_generator_proxy::generator_proxy::{
-    Cw20HookMsg, ExecuteMsg, InstantiateMsg, QueryMsg,
-};
+use astroport::generator_proxy::{Cw20HookMsg, ExecuteMsg, InstantiateMsg, QueryMsg};
 use astroport_generator_proxy::mine_staking::{
     Cw20HookMsg as MineCw20HookMsg, ExecuteMsg as MineExecuteMsg,
 };

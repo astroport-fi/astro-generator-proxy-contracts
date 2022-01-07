@@ -28,7 +28,7 @@ thiserror = { version = "1.0.24" }
 cw2 = "0.8.0"
 cw20 = "0.8.0"
 mirror-protocol = {version = "2.1.1"}
-astroport = {version = "0.3.1"}
+astroport = {version = "1.0.1"}
 astroport-generator-proxy = { path = "../../packages/astroport_generator_proxy", default-features = false, version = "1.0.0"}
 
 [dev-dependencies]
