@@ -29,8 +29,7 @@ thiserror = { version = "1.0.24" }
 cw2 = "0.8.0"
 cw20 = "0.8.0"
 astroport = { version = "1.0.1" }
-astroport-generator-proxy = { path = "../../packages/astroport_generator_proxy", default-features = false, version = "1.0.0"}
-anchor-token = {version = "0.2.0"}
+anchor-token = {version = "0.3.0-alpha.1"}
 
 [dev-dependencies]
 cosmwasm-schema = { version = "0.16.0" }
