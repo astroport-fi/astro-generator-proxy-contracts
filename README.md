@@ -1,4 +1,4 @@
-# Generator Proxy contracts
+# Generator Proxy Contracts
 
 This repo contains the proxy contracts for 3rd party LP staking incentives.
 These are needed for allowing dual incentives on the Astro LP Tokens via the generator contract.
