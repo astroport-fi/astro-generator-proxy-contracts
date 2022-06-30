@@ -2,7 +2,7 @@
 name = "generator-proxy-to-orion"
 version = "0.0.0"
 authors = ["_astromartian"]
-edition = "2018"
+edition = "2021"
 
 exclude = [
   # Those files are rust-optimizer artifacts. You might want to commit them for convenience but they should not be part of the source code publication.
