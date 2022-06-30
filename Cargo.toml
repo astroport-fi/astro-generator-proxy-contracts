@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "contracts/proxy_to_vkr", 
+    "contracts/*", 
     "packages/*"
 ]
 

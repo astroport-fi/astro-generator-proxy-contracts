@@ -9,11 +9,11 @@ use crate::state::{Config, CONFIG};
 use astroport::generator_proxy::{
     CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
 };
-use astroport_generator_proxy::vkr_staking::{
-    Cw20HookMsg as VkrCw20HookMsg, ExecuteMsg as VkrExecuteMsg, QueryMsg as VkrQueryMsg,
-    StakerInfoResponse,
-};
 use cw2::set_contract_version;
+use valkyrie::lp_staking::execute_msgs::{
+    Cw20HookMsg as VkrCw20HookMsg, ExecuteMsg as VkrExecuteMsg,
+};
+use valkyrie::lp_staking::query_msgs::{QueryMsg as VkrQueryMsg, StakerInfoResponse};
 
 // version info for migration info
 const CONTRACT_NAME: &str = "astroport-generator-proxy-to-vkr";
