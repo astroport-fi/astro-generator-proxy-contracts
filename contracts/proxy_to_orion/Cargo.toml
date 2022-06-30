@@ -20,16 +20,16 @@ crate-type = ["cdylib", "rlib"]
 backtraces = ["cosmwasm-std/backtraces"]
 
 [dependencies]
-cosmwasm-std = { version = "0.16.0" }
+cosmwasm-std = "1.0"
 cosmwasm-bignumber = "2.2.0"
-cw-storage-plus = "0.8.0"
+cw-storage-plus = "0.13.2"
 schemars = "0.8.1"
 serde = { version = "1.0.125", default-features = false, features = ["derive"] }
-thiserror = { version = "1.0.24" }
-cw2 = "0.8.0"
-cw20 = "0.8.0"
-astroport = { version = "1.0.1" }
+thiserror = { version = "1.0.20" }
+cw2 = "0.13.2"
+cw20 = "0.13.2"
+astroport = { git = "https://github.com/astroport-fi/astroport-core.git", branch = "release/terra2" }
 astroport-generator-proxy = { path = "../../packages/astroport_generator_proxy", default-features = false, version = "1.0.0"}
 
 [dev-dependencies]
-cosmwasm-schema = { version = "0.16.0" }
+cosmwasm-schema = "1.0.0"

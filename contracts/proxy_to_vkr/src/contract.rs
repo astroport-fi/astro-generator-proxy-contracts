@@ -9,11 +9,11 @@ use crate::state::{Config, CONFIG};
 use astroport::generator_proxy::{
     CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
 };
-use cw2::set_contract_version;
-use valkyrie::lp_staking::execute_msgs::{
-    Cw20HookMsg as VkrCw20HookMsg, ExecuteMsg as VkrExecuteMsg,
+use astroport_generator_proxy::vkr_staking::{
+    Cw20HookMsg as VkrCw20HookMsg, ExecuteMsg as VkrExecuteMsg, QueryMsg as VkrQueryMsg,
+    StakerInfoResponse,
 };
-use valkyrie::lp_staking::query_msgs::{QueryMsg as VkrQueryMsg, StakerInfoResponse};
+use cw2::set_contract_version;
 
 // version info for migration info
 const CONTRACT_NAME: &str = "astroport-generator-proxy-to-vkr";
@@ -131,7 +131,7 @@ fn update_rewards(deps: DepsMut) -> Result<Response, ContractError> {
 fn send_rewards(
     deps: DepsMut,
     info: MessageInfo,
-    account: Addr,
+    account: String,
     amount: Uint128,
 ) -> Result<Response, ContractError> {
     let mut response = Response::new();
@@ -160,7 +160,7 @@ fn withdraw(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
-    account: Addr,
+    account: String,
     amount: Uint128,
 ) -> Result<Response, ContractError> {
     let mut response = Response::new();
@@ -192,7 +192,7 @@ fn withdraw(
         funds: vec![],
         msg: to_binary(&ExecuteMsg::Callback(
             CallbackMsg::TransferLpTokensAfterWithdraw {
-                account,
+                account: deps.api.addr_validate(&account)?,
                 prev_lp_balance,
             },
         ))?,
