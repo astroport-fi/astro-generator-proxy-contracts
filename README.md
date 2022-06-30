@@ -24,6 +24,28 @@ rustup default stable
 rustup target add wasm32-unknown-unknown
 ```
 
+3. Install Node libraries required:
+
+```bash
+cd scripts
+npm install
+```
+
+4. Terra pheonix network MAINNET details -
+   export CHAIN_ID="phoenix-1"
+   export LCD_CLIENT_URL="https://phoenix-lcd.terra.dev"
+
+5. Terra pheonix network TESTNET details -
+   export CHAIN_ID="pisco-1"
+   export LCD_CLIENT_URL="https://pisco-lcd.terra.dev"
+
+6. Deploy:
+
+```bash
+export WALLET="<mnemonic seed>"
+node --experimental-json-modules --loader ts-node/esm deploy_script.ts
+```
+
 ### Compile
 
 Make sure the current working directory is set to the root directory of this repository, then
