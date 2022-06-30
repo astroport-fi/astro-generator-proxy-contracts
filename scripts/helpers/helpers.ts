@@ -18,7 +18,7 @@ import {
 import { readFileSync, writeFileSync } from "fs";
 import path from "path";
 
-export const ARTIFACTS_PATH = "../artifacts";
+export const ARTIFACTS_PATH = "../../artifacts";
 
 // Reads json containing contract addresses located in /artifacts folder. Naming convention : bombay-12 / columbus-5
 export function readArtifact(name: string = "artifact") {
@@ -179,7 +179,7 @@ export async function instantiateContract(
 ) {
   const instantiateMsg = new MsgInstantiateContract(
     wallet.key.accAddress,
-    "terra174gu7kg8ekk5gsxdma5jlfcedm653tyg6ayppw", //wallet.key.accAddress,
+    wallet.key.accAddress,
     codeId,
     msg,
     undefined,
