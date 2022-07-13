@@ -2,7 +2,7 @@
 name = "astroport-generator-proxy"
 version = "1.0.0"
 authors = ["Terraform Labs, PTE."]
-edition = "2018"
+edition = "2021"
 description = "Common astroport types"
 license = "Apache-2.0"
 repository = "https://github.com/astroport-fi/generator-proxy-contracts"
@@ -16,14 +16,11 @@ homepage = "https://astroport.fi"
 backtraces = ["cosmwasm-std/backtraces"]
 
 [dependencies]
-cw20 = { version = "0.8" }
-terra-cosmwasm = { version = "2.2.0" }
-cosmwasm-std = { version = "0.16.0", features = ["iterator"] }
+cw20 = "0.13.2"
+cosmwasm-std = "1.0"
 schemars = "0.8.1"
 serde = { version = "1.0.103", default-features = false, features = ["derive"] }
 uint = "0.9.1"
-terraswap = "2.4.0"
-cosmwasm-bignumber = "2.2.0"
 
 [dev-dependencies]
-cosmwasm-schema = "0.16.0"
+cosmwasm-schema = "1.0.0"

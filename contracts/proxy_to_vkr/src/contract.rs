@@ -131,7 +131,7 @@ fn update_rewards(deps: DepsMut) -> Result<Response, ContractError> {
 fn send_rewards(
     deps: DepsMut,
     info: MessageInfo,
-    account: Addr,
+    account: String,
     amount: Uint128,
 ) -> Result<Response, ContractError> {
     let mut response = Response::new();
@@ -160,7 +160,7 @@ fn withdraw(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
-    account: Addr,
+    account: String,
     amount: Uint128,
 ) -> Result<Response, ContractError> {
     let mut response = Response::new();
@@ -192,7 +192,7 @@ fn withdraw(
         funds: vec![],
         msg: to_binary(&ExecuteMsg::Callback(
             CallbackMsg::TransferLpTokensAfterWithdraw {
-                account,
+                account: astroport::asset::addr_validate_to_lower(deps.api, &account)?,
                 prev_lp_balance,
             },
         ))?,
