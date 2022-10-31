@@ -43,7 +43,7 @@ npm install
 
 ```bash
 export WALLET="<mnemonic seed>"
-node --experimental-json-modules --loader ts-node/esm deploy_script.ts
+node --experimental-json-modules --loader ts-node/esm deploy.ts
 ```
 
 ### Compile

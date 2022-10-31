@@ -23,22 +23,21 @@ async function uploadAndInitGenProxyToVkr(terra: LCDClient, wallet: Wallet){
   if (!network.generatorProxyToVkrAddress) {
     console.log('Deploy the Generator proxy to vkr...');
 
-    let resp = await deployContract(
+    console.log("network: ", network);
+
+      network.generatorProxyToVkrAddress = await deployContract(
         terra,
         wallet,
         join(ARTIFACTS_PATH, "generator_proxy_to_vkr.wasm"),
         {
-          generator_contract_addr: network.generator_address,
-          pair_addr: network.vkr_luna_pair,
-          lp_token_addr: network.vkr_luna_lp_token,
-          reward_contract_addr: network.vkr_luna_lp_staking,
-          reward_token_addr: network.vkr_token,
+          generator_contract_addr: network.generatorAddress,
+          pair_addr: network.vkrLunaPairAddress,
+          lp_token_addr: network.vkrLunaLpTokenAddress,
+          reward_contract_addr: network.vkrLunaLpStakingAddress,
+          reward_token_addr: network.vkrTokenAddress,
         },
         "Astroport generator proxy to VKR"
     );
-
-    // @ts-ignore
-    network.generatorProxyToVkrAddress = resp.shift().shift()
 
     console.log(`Address Generator proxy to VKR contract: ${network.generatorProxyToVkrAddress}`)
     writeArtifact(network, terra.config.chainID)
