@@ -1,5 +1,4 @@
 import {
-  Coin,
   CreateTxOptions,
   isTxError,
   LCDClient,
@@ -12,7 +11,6 @@ import {
   MsgStoreCode,
   Wallet,
   PublicKey,
-  Fee,
   MsgUpdateContractAdmin,
 } from "@terra-money/terra.js";
 import { readFileSync, writeFileSync } from "fs";

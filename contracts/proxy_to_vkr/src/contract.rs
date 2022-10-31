@@ -145,7 +145,7 @@ fn send_rewards(
         .push(SubMsg::new(CosmosMsg::Wasm(WasmMsg::Execute {
             contract_addr: cfg.reward_token_addr.to_string(),
             msg: to_binary(&Cw20ExecuteMsg::Transfer {
-                recipient: account.to_string(),
+                recipient: account,
                 amount,
             })?,
             funds: vec![],

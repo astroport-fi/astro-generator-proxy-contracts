@@ -1,7 +1,7 @@
 [package]
 name = "generator-proxy-to-vkr"
-version = "0.0.0"
-authors = ["_astromartian"]
+version = "1.0.0"
+authors = ["Astroport"]
 edition = "2021"
 
 exclude = [
@@ -20,16 +20,12 @@ crate-type = ["cdylib", "rlib"]
 backtraces = ["cosmwasm-std/backtraces"]
 
 [dependencies]
-cosmwasm-std = "1.0"
-cw-storage-plus = "0.13.2"
-schemars = "0.8.1"
-serde = { version = "1.0.125", default-features = false, features = ["derive"] }
-thiserror = { version = "1.0.24" }
-cw2 = "0.13.2"
-cw20 = "0.13.2"
+cosmwasm-std = "1.1"
+cw-storage-plus = "0.15"
+thiserror = { version = "1.0" }
+cw2 = "0.15"
+cw20 = "0.15"
+valkyrie = { git = "https://github.com/valkyrieprotocol/contracts.git", branch = "feature/migrate_terra2"  }
 astroport = { git = "https://github.com/astroport-fi/astroport-core.git", branch = "release/terra2" }
-valkyrie = { git = "https://github.com/valkyrieprotocol/contracts.git", rev = "b5fcb666f17d7e291f40365756e50fc0d7b9bf54"  }
-astroport-generator-proxy = { path = "../../packages/astroport_generator_proxy", default-features = false, version = "1.0.0"}
+cosmwasm-schema = "1.1"
 
-[dev-dependencies]
-cosmwasm-schema = "1.0.0"
