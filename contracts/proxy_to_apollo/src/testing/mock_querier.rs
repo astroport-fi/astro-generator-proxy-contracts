@@ -3,12 +3,12 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 use astroport_generator_proxy::apollo_factory::{
-    FactoryUserInfoResponse, GetUserStrategiesResponse,
+    FactoryUserInfoResponse, GetUserStrategiesResponse, StakerInfoResponse,
 };
 use cosmwasm_bignumber::Decimal256;
 use cosmwasm_std::testing::{MockApi, MockQuerier, MockStorage, MOCK_CONTRACT_ADDR};
 use cosmwasm_std::{
-    from_binary, from_slice, to_binary, Coin, ContractResult, Empty, OwnedDeps, Querier,
+    from_binary, from_slice, to_binary, Coin, ContractResult, Decimal, Empty, OwnedDeps, Querier,
     QuerierResult, QueryRequest, SystemError, SystemResult, Uint128, WasmQuery,
 };
 use cw20::{BalanceResponse as Cw20BalanceResponse, Cw20QueryMsg};
@@ -86,6 +86,11 @@ pub enum QueryMsg {
         limit: Option<u32>,
         start_from: Option<u64>,
     },
+    GetStakerInfo {
+        staker: String,
+        strategy_id: u64,
+        time: Option<u64>,
+    },
 }
 
 impl Querier for WasmMockQuerier {
@@ -127,6 +132,14 @@ impl WasmMockQuerier {
                         }],
                     },
                 ))),
+                Ok(QueryMsg::GetStakerInfo { staker, .. }) => {
+                    SystemResult::Ok(ContractResult::from(to_binary(&StakerInfoResponse {
+                        staker: staker.to_string(),
+                        reward_index: Decimal::zero(),
+                        bond_amount: self.reward_querier.deposit_amount,
+                        pending_reward: self.reward_querier.pending_reward,
+                    })))
+                }
                 _ => match from_binary(msg).unwrap() {
                     Cw20QueryMsg::Balance { address } => {
                         let balances: &HashMap<String, Uint128> =

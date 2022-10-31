@@ -1,6 +1,21 @@
-artifacts
-target
-/scripts/node_modules
-test
-.idea
-.gitconfig
+# macOS
+.DS_Store
+
+# Text file backups
+**/*.rs.bk
+
+# Build results
+target/
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# Auto-gen
+.cargo-ok
+/scripts/.env
+/scripts/node_modules/
+#/scripts/package-lock.json
+/artifacts/
+/contracts/**/schema/

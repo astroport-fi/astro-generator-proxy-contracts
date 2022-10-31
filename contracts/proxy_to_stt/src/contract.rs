@@ -181,17 +181,13 @@ fn withdraw(
     response.messages.push(SubMsg::new(WasmMsg::Execute {
         contract_addr: cfg.reward_contract_addr.to_string(),
         funds: vec![],
-        msg: to_binary(&SttExecuteMsg::SubmitToUnbond {
-            amount: amount.into(),
-        })?,
+        msg: to_binary(&SttExecuteMsg::SubmitToUnbond { amount })?,
     }));
 
     response.messages.push(SubMsg::new(WasmMsg::Execute {
         contract_addr: cfg.reward_contract_addr.to_string(),
         funds: vec![],
-        msg: to_binary(&SttExecuteMsg::Unbond {
-            amount: amount.into(),
-        })?,
+        msg: to_binary(&SttExecuteMsg::Unbond { amount })?,
     }));
 
     // Callback function

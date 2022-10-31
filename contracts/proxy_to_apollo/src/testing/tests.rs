@@ -2,9 +2,11 @@ use crate::contract::{execute, instantiate, query};
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
 use crate::testing::mock_querier::mock_dependencies;
-use astroport::generator_proxy_apollo::{Cw20HookMsg, ExecuteMsg, InstantiateMsg, QueryMsg};
 use astroport_generator_proxy::apollo_factory::{
     Cw20HookMsg as ApolloFacCw20HookMsg, ExecuteMsg as ApolloFacExecuteMsg,
+};
+use astroport_generator_proxy::generator_proxy_apollo::{
+    CallbackMsg, Cw20HookMsg, ExecuteMsg, InstantiateMsg, QueryMsg,
 };
 use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
 use cosmwasm_std::{from_binary, to_binary, Addr, CosmosMsg, SubMsg, Uint128, WasmMsg};
@@ -212,6 +214,11 @@ fn test_send_rewards() {
 fn test_withdraw() {
     let mut deps = mock_dependencies(&[]);
 
+    deps.querier.with_token_balances(&[(
+        &String::from("apolloust0000"),
+        &[(&String::from(MOCK_CONTRACT_ADDR), &Uint128::new(0))],
+    )]);
+
     let msg = InstantiateMsg {
         generator_contract_addr: "generator0000".to_string(),
         pair_addr: "pair0000".to_string(),
@@ -253,13 +260,15 @@ fn test_withdraw() {
                 .unwrap(),
             }),
             SubMsg::new(WasmMsg::Execute {
-                contract_addr: "apolloust0000".to_string(),
-                funds: vec![],
-                msg: to_binary(&Cw20ExecuteMsg::Transfer {
-                    recipient: "addr0000".to_string(),
-                    amount: Uint128::new(100),
-                })
+                contract_addr: "cosmos2contract".to_string(),
+                msg: to_binary(&ExecuteMsg::Callback(
+                    CallbackMsg::TransferLpTokensAfterWithdraw {
+                        account: Addr::unchecked("addr0000"),
+                        prev_lp_balance: Uint128::new(0),
+                    },
+                ))
                 .unwrap(),
+                funds: vec![]
             })
         ]
     );
@@ -268,6 +277,11 @@ fn test_withdraw() {
 #[test]
 fn test_emergency_withdraw() {
     let mut deps = mock_dependencies(&[]);
+
+    deps.querier.with_token_balances(&[(
+        &String::from("apolloust0000"),
+        &[(&String::from(MOCK_CONTRACT_ADDR), &Uint128::new(0))],
+    )]);
 
     let msg = InstantiateMsg {
         generator_contract_addr: "generator0000".to_string(),
@@ -310,13 +324,15 @@ fn test_emergency_withdraw() {
                 .unwrap(),
             }),
             SubMsg::new(WasmMsg::Execute {
-                contract_addr: "apolloust0000".to_string(),
-                funds: vec![],
-                msg: to_binary(&Cw20ExecuteMsg::Transfer {
-                    recipient: "addr0000".to_string(),
-                    amount: Uint128::new(100),
-                })
+                contract_addr: "cosmos2contract".to_string(),
+                msg: to_binary(&ExecuteMsg::Callback(
+                    CallbackMsg::TransferLpTokensAfterWithdraw {
+                        account: Addr::unchecked("addr0000"),
+                        prev_lp_balance: Uint128::new(0),
+                    },
+                ))
                 .unwrap(),
+                funds: vec![]
             })
         ]
     );
