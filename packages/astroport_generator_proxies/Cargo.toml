@@ -1,0 +1,22 @@
+[package]
+name = "astroport-generator-proxies"
+version = "1.0.0"
+authors = ["Terraform Labs, PTE."]
+edition = "2021"
+description = "Common astroport types"
+license = "Apache-2.0"
+repository = "https://github.com/astroport-fi/generator-proxy-contracts"
+homepage = "https://astroport.fi"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+# for quicker tests, cargo test --lib
+# for more explicit tests, cargo test --features=backtraces
+backtraces = ["cosmwasm-std/backtraces"]
+
+[dependencies]
+uint = "0.9"
+cosmwasm-std = "1.1"
+cosmwasm-schema = "1.1"
+

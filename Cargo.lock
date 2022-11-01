@@ -26,6 +26,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "astroport-generator-proxies"
+version = "1.0.0"
+dependencies = [
+ "cosmwasm-schema",
+ "cosmwasm-std",
+ "uint",
+]
+
+[[package]]
 name = "base16ct"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -419,9 +428,10 @@ checksum = "c8cbd1169bd7b4a0a20d92b9af7a7e0422888bd38a6f5ec29c1fd8c1558a272e"
 
 [[package]]
 name = "generator-proxy-to-vkr"
-version = "1.0.0"
+version = "0.0.0"
 dependencies = [
  "astroport",
+ "astroport-generator-proxies",
  "cosmwasm-schema",
  "cosmwasm-std",
  "cw-storage-plus 0.15.1",

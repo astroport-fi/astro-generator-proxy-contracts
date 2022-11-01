@@ -7,8 +7,10 @@ use cw20::{BalanceResponse, Cw20ExecuteMsg, Cw20QueryMsg, Cw20ReceiveMsg};
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
 use astroport::generator_proxy::{
-    CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
+    CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, QueryMsg,
 };
+use astroport_generator_proxies::proxy_to_vkr::MigrateMsg;
+
 use cw2::set_contract_version;
 use valkyrie::lp_staking::execute_msgs::{
     Cw20HookMsg as VkrCw20HookMsg, ExecuteMsg as VkrExecuteMsg,
