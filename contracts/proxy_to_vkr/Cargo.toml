@@ -27,6 +27,6 @@ cw2 = "0.15"
 cw20 = "0.15"
 valkyrie = { git = "https://github.com/valkyrieprotocol/contracts.git", branch = "feature/migrate_terra2"  }
 astroport = { git = "https://github.com/astroport-fi/astroport-core.git", branch = "release/terra2" }
-astroport-generator-proxies = { path = "../../packages/astroport_generator_proxies" }
+ap-valkyrie = { path = "../../packages/valkyrie" }
 cosmwasm-schema = "1.1"
 

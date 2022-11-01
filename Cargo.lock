@@ -14,6 +14,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "ap-valkyrie"
+version = "1.0.0"
+dependencies = [
+ "cosmwasm-schema",
+ "cosmwasm-std",
+]
+
+[[package]]
 name = "astroport"
 version = "2.0.0"
 source = "git+https://github.com/astroport-fi/astroport-core.git?branch=release/terra2#09dc5793020e06835f7004082f798c67e4f016bd"
@@ -22,15 +30,6 @@ dependencies = [
  "cosmwasm-std",
  "cw-storage-plus 0.15.1",
  "cw20 0.15.1",
- "uint",
-]
-
-[[package]]
-name = "astroport-generator-proxies"
-version = "1.0.0"
-dependencies = [
- "cosmwasm-schema",
- "cosmwasm-std",
  "uint",
 ]
 
@@ -430,8 +429,8 @@ checksum = "c8cbd1169bd7b4a0a20d92b9af7a7e0422888bd38a6f5ec29c1fd8c1558a272e"
 name = "generator-proxy-to-vkr"
 version = "0.0.0"
 dependencies = [
+ "ap-valkyrie",
  "astroport",
- "astroport-generator-proxies",
  "cosmwasm-schema",
  "cosmwasm-std",
  "cw-storage-plus 0.15.1",
