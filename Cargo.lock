@@ -801,7 +801,7 @@ checksum = "6ceab39d59e4c9499d4e5a8ee0e2735b891bb7308ac83dfb4e80cad195c9f6f3"
 [[package]]
 name = "valkyrie"
 version = "1.0.8-beta.1"
-source = "git+https://github.com/valkyrieprotocol/contracts.git?branch=feature/migrate_terra2#b5fcb666f17d7e291f40365756e50fc0d7b9bf54"
+source = "git+https://github.com/valkyrieprotocol/contracts.git?rev=b5fcb666f17d7e291f40365756e50fc0d7b9bf54#b5fcb666f17d7e291f40365756e50fc0d7b9bf54"
 dependencies = [
  "bigint",
  "cosmwasm-std",
