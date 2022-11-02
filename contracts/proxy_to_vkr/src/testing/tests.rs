@@ -125,8 +125,11 @@ fn test_update_rewards() {
     let _res = instantiate(deps.as_mut(), mock_env(), info.clone(), msg).unwrap();
 
     // claim rewards from ANC staking contract
-    let claim_rewards_msg = ExecuteMsg::UpdateRewards {};
-    let res = execute(deps.as_mut(), mock_env(), info, claim_rewards_msg).unwrap();
+    let err = execute(deps.as_mut(), mock_env(), info.clone(), ExecuteMsg::UpdateRewards {}).unwrap_err();
+    assert_eq!(ContractError::Unauthorized {}, err);
+
+    let info = mock_info("generator0000", &[]);
+    let res = execute(deps.as_mut(), mock_env(), info, ExecuteMsg::UpdateRewards {}).unwrap();
 
     assert_eq!(
         res.messages,
