@@ -1,5 +1,5 @@
-use ap_valkyrie::MigrateMsg;
-use astroport::generator_proxy::{ExecuteMsg, InstantiateMsg, QueryMsg};
+use ap_generator_proxy::{ExecuteMsg, InstantiateMsg, QueryMsg};
+use ap_generator_proxy_to_vkr::MigrateMsg;
 use cosmwasm_schema::write_api;
 
 fn main() {

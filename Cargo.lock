@@ -14,7 +14,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "ap-valkyrie"
+name = "ap-generator-proxy"
+version = "2.2.1"
+source = "git+https://github.com/astroport-fi/astroport-core.git?branch=feat/separate_astroport_package#df59c2d06d29856df5cae92ecb91798024285dee"
+dependencies = [
+ "cosmwasm-schema",
+ "cosmwasm-std",
+ "cw20 0.15.1",
+]
+
+[[package]]
+name = "ap-generator-proxy-to-vkr"
 version = "1.0.0"
 dependencies = [
  "cosmwasm-schema",
@@ -23,14 +33,31 @@ dependencies = [
 
 [[package]]
 name = "astroport"
-version = "2.0.0"
-source = "git+https://github.com/astroport-fi/astroport-core.git?branch=release/terra2#09dc5793020e06835f7004082f798c67e4f016bd"
+version = "2.0.1"
+source = "git+https://github.com/astroport-fi/astroport-core.git?branch=feat/separate_astroport_package#df59c2d06d29856df5cae92ecb91798024285dee"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
  "cw-storage-plus 0.15.1",
  "cw20 0.15.1",
+ "itertools",
  "uint",
+]
+
+[[package]]
+name = "astroport-generator-proxy-to-vkr"
+version = "1.0.0"
+dependencies = [
+ "ap-generator-proxy",
+ "ap-generator-proxy-to-vkr",
+ "astroport",
+ "cosmwasm-schema",
+ "cosmwasm-std",
+ "cw-storage-plus 0.15.1",
+ "cw2",
+ "cw20 0.15.1",
+ "thiserror",
+ "valkyrie",
 ]
 
 [[package]]
@@ -390,6 +417,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "either"
+version = "1.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "90e5c1c8368803113bf0c9584fc495a58b86dc8a29edbf8fe877d21d9507e797"
+
+[[package]]
 name = "elliptic-curve"
 version = "0.12.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -424,21 +457,6 @@ name = "forward_ref"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c8cbd1169bd7b4a0a20d92b9af7a7e0422888bd38a6f5ec29c1fd8c1558a272e"
-
-[[package]]
-name = "generator-proxy-to-vkr"
-version = "0.0.0"
-dependencies = [
- "ap-valkyrie",
- "astroport",
- "cosmwasm-schema",
- "cosmwasm-std",
- "cw-storage-plus 0.15.1",
- "cw2",
- "cw20 0.15.1",
- "thiserror",
- "valkyrie",
-]
 
 [[package]]
 name = "generic-array"
@@ -494,6 +512,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6c49c37c09c17a53d937dfbb742eb3a961d65a994e6bcdcf37e7399d0cc8ab5e"
 dependencies = [
  "digest 0.10.5",
+]
+
+[[package]]
+name = "itertools"
+version = "0.10.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b0fd2260e829bddf4cb6ea802289de2f86d6a7a690192fbe91b3f46e0f2c8473"
+dependencies = [
+ "either",
 ]
 
 [[package]]

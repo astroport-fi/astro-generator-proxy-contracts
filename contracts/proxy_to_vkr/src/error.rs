@@ -11,4 +11,7 @@ pub enum ContractError {
 
     #[error("Incorrect CW20 hook message variant!")]
     IncorrectCw20HookMessageVariant {},
+
+    #[error("Contract can't be migrated!")]
+    MigrationError {},
 }
