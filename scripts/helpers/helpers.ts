@@ -1,5 +1,4 @@
 import {
-  Coin,
   CreateTxOptions,
   isTxError,
   LCDClient,
@@ -12,13 +11,12 @@ import {
   MsgStoreCode,
   Wallet,
   PublicKey,
-  Fee,
   MsgUpdateContractAdmin,
 } from "@terra-money/terra.js";
 import { readFileSync, writeFileSync } from "fs";
 import path from "path";
 
-export const ARTIFACTS_PATH = "../../artifacts";
+export const ARTIFACTS_PATH = "../artifacts";
 
 // Reads json containing contract addresses located in /artifacts folder. Naming convention : bombay-12 / columbus-5
 export function readArtifact(name: string = "artifact") {
