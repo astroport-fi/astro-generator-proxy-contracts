@@ -6,9 +6,11 @@ use cw20::{BalanceResponse, Cw20ExecuteMsg, Cw20QueryMsg, Cw20ReceiveMsg};
 
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
+use ap_valkyrie::MigrateMsg;
 use astroport::generator_proxy::{
-    CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
+    CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, QueryMsg,
 };
+
 use cw2::set_contract_version;
 use valkyrie::lp_staking::execute_msgs::{
     Cw20HookMsg as VkrCw20HookMsg, ExecuteMsg as VkrExecuteMsg,
@@ -49,7 +51,7 @@ pub fn execute(
 ) -> Result<Response, ContractError> {
     match msg {
         ExecuteMsg::Receive(msg) => receive_cw20(deps, env, info, msg),
-        ExecuteMsg::UpdateRewards {} => update_rewards(deps),
+        ExecuteMsg::UpdateRewards {} => update_rewards(deps, info),
         ExecuteMsg::SendRewards { account, amount } => send_rewards(deps, info, account, amount),
         ExecuteMsg::Withdraw { account, amount } => withdraw(deps, env, info, account, amount),
         ExecuteMsg::EmergencyWithdraw { account, amount } => {
@@ -110,9 +112,12 @@ fn receive_cw20(
 }
 
 /// @dev Claims pending rewards from the VKR LP staking contract
-fn update_rewards(deps: DepsMut) -> Result<Response, ContractError> {
+fn update_rewards(deps: DepsMut, info: MessageInfo) -> Result<Response, ContractError> {
     let mut response = Response::new();
     let cfg = CONFIG.load(deps.storage)?;
+    if info.sender != cfg.generator_contract_addr {
+        return Err(ContractError::Unauthorized {});
+    };
 
     response
         .messages
@@ -131,7 +136,7 @@ fn update_rewards(deps: DepsMut) -> Result<Response, ContractError> {
 fn send_rewards(
     deps: DepsMut,
     info: MessageInfo,
-    account: Addr,
+    account: String,
     amount: Uint128,
 ) -> Result<Response, ContractError> {
     let mut response = Response::new();
@@ -145,7 +150,7 @@ fn send_rewards(
         .push(SubMsg::new(CosmosMsg::Wasm(WasmMsg::Execute {
             contract_addr: cfg.reward_token_addr.to_string(),
             msg: to_binary(&Cw20ExecuteMsg::Transfer {
-                recipient: account.to_string(),
+                recipient: account,
                 amount,
             })?,
             funds: vec![],
@@ -160,7 +165,7 @@ fn withdraw(
     deps: DepsMut,
     env: Env,
     info: MessageInfo,
-    account: Addr,
+    account: String,
     amount: Uint128,
 ) -> Result<Response, ContractError> {
     let mut response = Response::new();
@@ -192,7 +197,7 @@ fn withdraw(
         funds: vec![],
         msg: to_binary(&ExecuteMsg::Callback(
             CallbackMsg::TransferLpTokensAfterWithdraw {
-                account,
+                account: astroport::asset::addr_validate_to_lower(deps.api, &account)?,
                 prev_lp_balance,
             },
         ))?,

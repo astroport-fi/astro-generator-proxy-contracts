@@ -1,7 +1,11 @@
+# artifacts and builds
 artifacts
 target
+
+# Scripts
 /scripts/node_modules
 /scripts/.env
-test
+
+# IDE
 .idea
 .gitconfig
