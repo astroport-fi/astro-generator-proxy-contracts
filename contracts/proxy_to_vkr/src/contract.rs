@@ -51,7 +51,7 @@ pub fn execute(
 ) -> Result<Response, ContractError> {
     match msg {
         ExecuteMsg::Receive(msg) => receive_cw20(deps, env, info, msg),
-        ExecuteMsg::UpdateRewards {} => update_rewards(deps),
+        ExecuteMsg::UpdateRewards {} => update_rewards(deps, info),
         ExecuteMsg::SendRewards { account, amount } => send_rewards(deps, info, account, amount),
         ExecuteMsg::Withdraw { account, amount } => withdraw(deps, env, info, account, amount),
         ExecuteMsg::EmergencyWithdraw { account, amount } => {
@@ -112,9 +112,12 @@ fn receive_cw20(
 }
 
 /// @dev Claims pending rewards from the VKR LP staking contract
-fn update_rewards(deps: DepsMut) -> Result<Response, ContractError> {
+fn update_rewards(deps: DepsMut, info: MessageInfo) -> Result<Response, ContractError> {
     let mut response = Response::new();
     let cfg = CONFIG.load(deps.storage)?;
+    if info.sender != cfg.generator_contract_addr {
+        return Err(ContractError::Unauthorized {});
+    };
 
     response
         .messages
