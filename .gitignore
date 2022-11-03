@@ -1,6 +1,7 @@
 artifacts
 target
 /scripts/node_modules
+/scripts/.env
 test
 .idea
 .gitconfig
