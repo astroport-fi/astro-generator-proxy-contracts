@@ -13,7 +13,7 @@ These are needed for allowing dual incentives on the Astro LP Tokens via the gen
 
 You will need Rust 1.64.0+ with wasm32-unknown-unknown target installed.
 
-You can run unit tests for each contract directory via:
+Run tests for all contracts:
 
 ```
 cargo test
