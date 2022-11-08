@@ -1,0 +1,16 @@
+{
+  "generalInfo": {
+    "multisig": "terra1x46rqay4d3cssq8gxxvqz8xt6nwlz4td20k38v"
+  },
+  "proxyVKR": {
+    "admin": null,
+    "initMsg": {
+      "generator_contract_addr": null,
+      "pair_addr": null,
+      "lp_token_addr": null,
+      "reward_contract_addr": null,
+      "reward_token_addr": null
+    },
+    "label": "Astroport generator proxy to VKR"
+  }
+}
