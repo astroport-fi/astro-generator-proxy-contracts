@@ -9,3 +9,4 @@ target
 # IDE
 .idea
 .gitconfig
+.vscode
