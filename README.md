@@ -1,5 +1,7 @@
 # Astroport Generator Proxy Contracts
 
+[![codecov](https://codecov.io/gh/astroport-fi/astro-generator-proxy-contracts/branch/main/graph/badge.svg?token=ZCO1D3AGSM)](https://codecov.io/gh/astroport-fi/astro-generator-proxy-contracts)
+
 This repo contains the proxy contracts for 3rd party LP staking incentives.
 These are needed for allowing dual incentives on the Astro LP Tokens via the generator contract.
 
