@@ -24,7 +24,7 @@ dependencies = [
 [[package]]
 name = "astroport"
 version = "2.0.0"
-source = "git+https://github.com/astroport-fi/astroport-core.git?branch=release/terra2#09dc5793020e06835f7004082f798c67e4f016bd"
+source = "git+https://github.com/astroport-fi/astroport-core.git?branch=release#fb5cf85c3cd8c3db881ebccd9bfa09caa37b57d5"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",

@@ -5,38 +5,38 @@ import {
   readArtifact,
   writeArtifact,
   deployContract,
-} from "./helpers/helpers.js";
+} from "./helpers.js";
 import { join } from "path";
+import { chainConfigs } from "./types.d/chain_configs.js";
 
 const ARTIFACTS_PATH = "../artifacts";
 
 async function main() {
-    const { terra, wallet } = newClient();
-    console.log(`chainID: ${terra.config.chainID} wallet: ${wallet.key.accAddress}`);
+  const { terra, wallet } = newClient();
+  console.log(`chainID: ${terra.config.chainID} wallet: ${wallet.key.accAddress}`);
 
-    await uploadAndInitGenProxyToVkr(terra, wallet)
+  if (!chainConfigs.generalInfo.multisig) {
+    throw new Error("Set the proper owner multisig for the contracts")
+  }
+
+  await uploadAndInitGenProxyToVkr(terra, wallet)
 }
 
-async function uploadAndInitGenProxyToVkr(terra: LCDClient, wallet: Wallet){
+async function uploadAndInitGenProxyToVkr(terra: LCDClient, wallet: Wallet) {
   const network = readArtifact(terra.config.chainID);
 
   if (!network.generatorProxyToVkrAddress) {
     console.log('Deploy the Generator proxy to vkr...');
 
-    console.log("network: ", network);
+    chainConfigs.proxyVKR.admin ||= chainConfigs.generalInfo.multisig
 
-      network.generatorProxyToVkrAddress = await deployContract(
-        terra,
-        wallet,
-        join(ARTIFACTS_PATH, "generator_proxy_to_vkr.wasm"),
-        {
-          generator_contract_addr: network.generatorAddress,
-          pair_addr: network.vkrLunaPairAddress,
-          lp_token_addr: network.vkrLunaLpTokenAddress,
-          reward_contract_addr: network.vkrLunaLpStakingAddress,
-          reward_token_addr: network.vkrTokenAddress,
-        },
-        "Astroport generator proxy to VKR"
+    network.generatorProxyToVkrAddress = await deployContract(
+      terra,
+      wallet,
+      chainConfigs.proxyVKR.admin,
+      join(ARTIFACTS_PATH, "generator_proxy_to_vkr.wasm"),
+      chainConfigs.proxyVKR.initMsg,
+      chainConfigs.proxyVKR.label,
     );
 
     console.log(`Address Generator proxy to VKR contract: ${network.generatorProxyToVkrAddress}`)
