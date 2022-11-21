@@ -1,6 +1,7 @@
 # artifacts and builds
 artifacts
 target
+contracts/**/schema
 
 # Scripts
 /scripts/node_modules
