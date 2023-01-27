@@ -23,12 +23,13 @@ dependencies = [
 
 [[package]]
 name = "astroport"
-version = "2.0.0"
-source = "git+https://github.com/astroport-fi/astroport-core.git?branch=release#fb5cf85c3cd8c3db881ebccd9bfa09caa37b57d5"
+version = "2.1.0"
+source = "git+https://github.com/astroport-fi/astroport-core.git?branch=release#f3f7723b3103be23c02f2cb0874e79254e83f4e2"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
  "cw-storage-plus 0.15.1",
+ "cw-utils 0.15.1",
  "cw20 0.15.1",
  "uint",
 ]
