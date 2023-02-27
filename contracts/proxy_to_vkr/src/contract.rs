@@ -197,7 +197,7 @@ fn withdraw(
         funds: vec![],
         msg: to_binary(&ExecuteMsg::Callback(
             CallbackMsg::TransferLpTokensAfterWithdraw {
-                account: astroport::asset::addr_validate_to_lower(deps.api, &account)?,
+                account: deps.api.addr_validate(&account)?,
                 prev_lp_balance,
             },
         ))?,
