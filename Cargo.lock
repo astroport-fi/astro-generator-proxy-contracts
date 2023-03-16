@@ -16,7 +16,7 @@ dependencies = [
 [[package]]
 name = "ap-native-coin-registry"
 version = "1.0.0"
-source = "git+https://github.com/astroport-fi/astroport-core.git?branch=main#6da1b4765e29c64deaffd18db2da6110176efe04"
+source = "git+https://github.com/astroport-fi/astroport-core?branch=merge/release#b9f30fb2f27352efae78213256d02da9b355b94c"
 dependencies = [
  "cosmwasm-schema",
  "cosmwasm-std",
@@ -33,8 +33,8 @@ dependencies = [
 
 [[package]]
 name = "astroport"
-version = "2.1.0"
-source = "git+https://github.com/astroport-fi/astroport-core.git?branch=main#6da1b4765e29c64deaffd18db2da6110176efe04"
+version = "2.4.0"
+source = "git+https://github.com/astroport-fi/astroport-core?branch=merge/release#b9f30fb2f27352efae78213256d02da9b355b94c"
 dependencies = [
  "ap-native-coin-registry",
  "cosmwasm-schema",
@@ -830,7 +830,7 @@ checksum = "84a22b9f218b40614adcb3f4ff08b703773ad44fa9423e4e0d346d5db86e4ebc"
 [[package]]
 name = "valkyrie"
 version = "1.0.8-beta.1"
-source = "git+https://github.com/valkyrieprotocol/contracts.git?rev=b5fcb666f17d7e291f40365756e50fc0d7b9bf54#b5fcb666f17d7e291f40365756e50fc0d7b9bf54"
+source = "git+https://github.com/valkyrieprotocol/contracts?rev=b5fcb666f17d7e291f40365756e50fc0d7b9bf54#b5fcb666f17d7e291f40365756e50fc0d7b9bf54"
 dependencies = [
  "bigint",
  "cosmwasm-std",
