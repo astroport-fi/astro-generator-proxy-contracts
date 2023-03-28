@@ -14,9 +14,9 @@ jobs:
           $GITHUB_WORKSPACE/scripts/build_release.sh
           tar -zcvf cosmwasm-artifacts.tar.gz artifacts
       - name: Create Release
-          uses: softprops/action-gh-release@v1
-          with:
-            files: cosmwasm-artifacts.tar.gz
-            token: ${{ secrets.GH_TOKEN }}
-          env:
-            GITHUB_REPOSITORY: astroport-fi/astro-generator-proxy-contracts
+        uses: softprops/action-gh-release@v1
+        with:
+          files: cosmwasm-artifacts.tar.gz
+          token: ${{ secrets.GH_TOKEN }}
+        env:
+          GITHUB_REPOSITORY: astroport-fi/astro-generator-proxy-contracts
