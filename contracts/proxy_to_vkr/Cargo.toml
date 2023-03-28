@@ -25,7 +25,7 @@ cw-storage-plus = "0.15"
 thiserror = { version = "1.0" }
 cw2 = "0.15"
 cw20 = "0.15"
-valkyrie = { git = "https://github.com/valkyrieprotocol/contracts", rev = "b5fcb666f17d7e291f40365756e50fc0d7b9bf54" }
-astroport = { git = "https://github.com/astroport-fi/astroport-core", branch = "merge/release" }
+valkyrie = { git = "https://github.com/astroport-fi/valkyrieprotocol", rev = "b5fcb666f17d7e291f40365756e50fc0d7b9bf54" }
+astroport = { git = "https://github.com/astroport-fi/astroport-core", branch = "main" }
 ap-valkyrie = { path = "../../packages/valkyrie" }
 cosmwasm-schema = "1.1"
