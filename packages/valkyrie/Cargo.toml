@@ -1,6 +1,6 @@
 [package]
 name = "ap-valkyrie"
-version = "1.0.0"
+version = "1.1.0"
 authors = ["Terraform Labs, PTE."]
 edition = "2021"
 description = "Common astroport types"
@@ -18,4 +18,5 @@ backtraces = ["cosmwasm-std/backtraces"]
 [dependencies]
 cosmwasm-std = "1.1"
 cosmwasm-schema = "1.1"
+cw20 = { version = "1.1" }
 

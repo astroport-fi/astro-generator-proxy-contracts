@@ -1,0 +1,34 @@
+[package]
+name = "valkyrie-lp-staking"
+version = "1.1.0"
+authors = ["Valkyrie Protocol, Astroport"]
+edition = "2021"
+description = "A Staking contract for Valkyrie Protocol - distribute rewards to stakers"
+license = "Apache-2.0"
+
+exclude = [
+  # Those files are rust-optimizer artifacts. You might want to commit them for convenience but they should not be part of the source code publication.
+  "contract.wasm",
+  "hash.txt",
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+# for quicker tests, cargo test --lib
+# for more explicit tests, cargo test --features=backtraces
+backtraces = ["cosmwasm-std/backtraces"]
+
+[dependencies]
+cosmwasm-std = { version = "1.3" }
+cw-storage-plus = { version = "1.1"}
+cw20 = { version = "1.1" }
+ap-valkyrie = { path = "../../../packages/valkyrie" }
+cosmwasm-schema = { version = "1.1" }
+thiserror = { version = "1.0" }
+
+[dev-dependencies]
+astroport = { git = "https://github.com/astroport-fi/astroport-core" }

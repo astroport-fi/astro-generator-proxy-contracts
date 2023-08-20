@@ -1,3 +1,4 @@
+use ap_valkyrie::staking_vkr::StakerInfoResponse;
 use cosmwasm_schema::cw_serde;
 use cosmwasm_std::testing::{MockApi, MockQuerier, MockStorage, MOCK_CONTRACT_ADDR};
 use cosmwasm_std::{
@@ -6,7 +7,6 @@ use cosmwasm_std::{
 };
 use cw20::{BalanceResponse as Cw20BalanceResponse, Cw20QueryMsg};
 use std::collections::HashMap;
-use valkyrie::lp_staking::query_msgs::StakerInfoResponse;
 
 /// mock_dependencies is a drop-in replacement for cosmwasm_std::testing::mock_dependencies
 /// this uses our CustomQuerier.
