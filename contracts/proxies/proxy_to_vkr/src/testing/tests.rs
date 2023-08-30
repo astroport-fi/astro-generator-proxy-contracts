@@ -2,13 +2,11 @@ use crate::contract::{execute, instantiate, query};
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
 use crate::testing::mock_querier::mock_dependencies;
+use ap_valkyrie::staking_vkr::{Cw20HookMsg as VkrCw20HookMsg, ExecuteMsg as VkrExecuteMsg};
 use astroport::generator_proxy::{CallbackMsg, Cw20HookMsg, ExecuteMsg, InstantiateMsg, QueryMsg};
 use cosmwasm_std::testing::{mock_env, mock_info, MOCK_CONTRACT_ADDR};
 use cosmwasm_std::{from_binary, to_binary, Addr, CosmosMsg, SubMsg, Uint128, WasmMsg};
 use cw20::{Cw20ExecuteMsg, Cw20ReceiveMsg};
-use valkyrie::lp_staking::execute_msgs::{
-    Cw20HookMsg as VkrCw20HookMsg, ExecuteMsg as VkrExecuteMsg,
-};
 
 #[test]
 fn test_proper_initialization() {
@@ -92,7 +90,7 @@ fn test_deposit() {
             msg: to_binary(&Cw20ExecuteMsg::Send {
                 contract: "reward0000".to_string(),
                 amount: Uint128::from(100u128),
-                msg: to_binary(&VkrCw20HookMsg::Bond {}).unwrap(),
+                msg: to_binary(&VkrCw20HookMsg::Bond { schedules: vec![] }).unwrap(),
             })
             .unwrap(),
         }))]

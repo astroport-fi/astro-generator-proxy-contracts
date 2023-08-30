@@ -6,16 +6,15 @@ use cw20::{BalanceResponse, Cw20ExecuteMsg, Cw20QueryMsg, Cw20ReceiveMsg};
 
 use crate::error::ContractError;
 use crate::state::{Config, CONFIG};
-use ap_valkyrie::MigrateMsg;
 use astroport::generator_proxy::{
     CallbackMsg, ConfigResponse, Cw20HookMsg, ExecuteMsg, InstantiateMsg, QueryMsg,
 };
 
-use cw2::set_contract_version;
-use valkyrie::lp_staking::execute_msgs::{
-    Cw20HookMsg as VkrCw20HookMsg, ExecuteMsg as VkrExecuteMsg,
+use ap_valkyrie::staking_vkr::{
+    Cw20HookMsg as VkrCw20HookMsg, ExecuteMsg as VkrExecuteMsg, MigrateMsg,
+    QueryMsg as VkrQueryMsg, StakerInfoResponse,
 };
-use valkyrie::lp_staking::query_msgs::{QueryMsg as VkrQueryMsg, StakerInfoResponse};
+use cw2::set_contract_version;
 
 // version info for migration info
 const CONTRACT_NAME: &str = "astroport-generator-proxy-to-vkr";
@@ -102,7 +101,7 @@ fn receive_cw20(
                 msg: to_binary(&Cw20ExecuteMsg::Send {
                     contract: cfg.reward_contract_addr.to_string(),
                     amount: cw20_msg.amount,
-                    msg: to_binary(&VkrCw20HookMsg::Bond {})?,
+                    msg: to_binary(&VkrCw20HookMsg::Bond { schedules: vec![] })?, // TODO:
                 })?,
             })));
     } else {
